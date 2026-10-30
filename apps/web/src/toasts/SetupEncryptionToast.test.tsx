@@ -18,12 +18,13 @@ import { type SecretStorageKeyDescriptionAesV1 } from "matrix-js-sdk/src/secret-
 
 import * as SecurityManager from "../SecurityManager";
 import ToastContainer from "../components/structures/ToastContainer";
-import { showToast } from "./SetupEncryptionToast";
+import { hideToast, showToast } from "./SetupEncryptionToast";
 import dis from "../dispatcher/dispatcher";
 import { DeviceListener } from "../device-listener";
 import Modal from "../Modal";
 import ConfirmKeyStorageOffDialog from "../components/views/dialogs/ConfirmKeyStorageOffDialog";
 import SetupEncryptionDialog from "../components/views/dialogs/security/SetupEncryptionDialog";
+import RequiredRecoveryKeyDialog from "../components/views/dialogs/security/RequiredRecoveryKeyDialog";
 import { stubClient } from "test-utils";
 
 vi.mock("../dispatcher/dispatcher", () => ({
@@ -43,24 +44,60 @@ describe("SetupEncryptionToast", () => {
         vi.resetAllMocks();
     });
 
-    describe("Back up your chats", () => {
-        it("should render the toast", async () => {
-            act(() => showToast("set_up_recovery"));
+    describe("Mandatory recovery key", () => {
+        const close = vi.fn();
 
-            expect(await screen.findByRole("heading", { name: "Back up your chats" })).toBeInTheDocument();
+        beforeEach(() => {
+            vi.spyOn(Modal, "createDialog").mockReturnValue({ close, finished: new Promise(() => {}) } as any);
         });
 
-        it("should dismiss the toast when 'Dismiss' button clicked, and remember it", async () => {
-            vi.spyOn(DeviceListener.sharedInstance(), "recordRecoveryDisabled");
-            vi.spyOn(DeviceListener.sharedInstance(), "dismissEncryptionSetup");
+        afterEach(() => {
+            hideToast();
+        });
 
+        it("opens a blocking dialog instead of a dismissible toast", async () => {
             act(() => showToast("set_up_recovery"));
 
-            const user = userEvent.setup();
-            await user.click(await screen.findByRole("button", { name: "Not now" }));
+            expect(Modal.createDialog).toHaveBeenCalledWith(
+                RequiredRecoveryKeyDialog,
+                {},
+                undefined,
+                false,
+                true,
+                expect.objectContaining({ onBeforeClose: expect.any(Function) }),
+            );
+            expect(screen.queryByRole("heading", { name: "Back up your chats" })).not.toBeInTheDocument();
+            expect(screen.queryByRole("button", { name: "Not now" })).not.toBeInTheDocument();
+        });
 
-            expect(DeviceListener.sharedInstance().recordRecoveryDisabled).toHaveBeenCalled();
-            expect(DeviceListener.sharedInstance().dismissEncryptionSetup).toHaveBeenCalled();
+        it("refuses to close on a background click", async () => {
+            act(() => showToast("set_up_recovery"));
+
+            const options = vi.mocked(Modal.createDialog).mock.calls[0][5]!;
+            await expect(options.onBeforeClose!("backgroundClick")).resolves.toBe(false);
+            await expect(options.onBeforeClose!()).resolves.toBe(true);
+        });
+
+        it("opens only once across repeated rechecks", async () => {
+            act(() => showToast("set_up_recovery"));
+            act(() => showToast("set_up_recovery"));
+
+            expect(Modal.createDialog).toHaveBeenCalledTimes(1);
+        });
+
+        it("closes when recovery no longer needs setting up", async () => {
+            act(() => showToast("set_up_recovery"));
+            hideToast();
+
+            expect(close).toHaveBeenCalled();
+        });
+
+        it("makes way for a different encryption state", async () => {
+            act(() => showToast("set_up_recovery"));
+            act(() => showToast("verify_this_session"));
+
+            expect(close).toHaveBeenCalled();
+            expect(await screen.findByRole("heading", { name: "Verify this device" })).toBeInTheDocument();
         });
     });
 

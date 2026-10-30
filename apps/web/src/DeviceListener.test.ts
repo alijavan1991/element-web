@@ -330,7 +330,7 @@ describe("DeviceListener", () => {
             expect(console.error).not.toHaveBeenCalled();
         });
 
-        it("shows no error if key backup is disabled", async () => {
+        it("still requires recovery if key backup is disabled", async () => {
             // Given backup is disabled but recovery is not disabled
 
             // @ts-ignore implementing a function with complex return type
@@ -363,10 +363,8 @@ describe("DeviceListener", () => {
             // When we check whether we are in a good state
             await createAndStart();
 
-            // Then we are fine: no toasts displayed, because recovery being in
-            // a bad state is not important if backups are disabled.
-            expect(SetupEncryptionToast.showToast).not.toHaveBeenCalled();
-            expect(SetupEncryptionToast.hideToast).toHaveBeenCalled();
+            // Then recovery is required anyway: Zemzemeh does not allow opting out of it.
+            expect(SetupEncryptionToast.showToast).toHaveBeenCalledWith("set_up_recovery");
         });
 
         it("correctly handles other errors", async () => {
@@ -1370,22 +1368,40 @@ describe("DeviceListener", () => {
                 expect(SetupEncryptionToast.showToast).not.toHaveBeenCalledWith("set_up_recovery");
             });
 
-            it("does not show the 'set up recovery' toast if the user has chosen to disable key storage", async () => {
-                mockClient!.getAccountData.mockImplementation((k: string) => {
-                    switch (k) {
-                        case "m.org.matrix.custom.backup_disabled":
-                            return new MatrixEvent({ content: { disabled: true } });
-
-                        case "m.key_backup":
-                            return new MatrixEvent({ content: { enabled: false } });
-
-                        default:
-                            return undefined;
-                    }
+            it("still requires recovery if the user has chosen to disable key storage", async () => {
+                // @ts-ignore implementing a function with complex return type
+                mockClient!.getAccountDataFromServer.mockImplementation(async (key) => {
+                    if (key === ACCOUNT_DATA_KEY_M_KEY_BACKUP_DISABLED_UNSTABLE) return { disabled: true };
+                    if (key === ACCOUNT_DATA_KEY_M_KEY_BACKUP) return { enabled: false };
+                    return null;
                 });
                 await createAndStart();
 
-                expect(SetupEncryptionToast.showToast).not.toHaveBeenCalledWith("set_up_recovery");
+                expect(SetupEncryptionToast.showToast).toHaveBeenCalledWith("set_up_recovery");
+            });
+
+            it("still requires recovery if account data says the user disabled it", async () => {
+                mockCrypto!.getActiveSessionBackupVersion.mockResolvedValue("1");
+                // @ts-ignore implementing a function with complex return type
+                mockClient!.getAccountDataFromServer.mockImplementation(async (key) =>
+                    key === RECOVERY_ACCOUNT_DATA_KEY ? { enabled: false } : null,
+                );
+                await createAndStart();
+
+                expect(SetupEncryptionToast.showToast).toHaveBeenCalledWith("set_up_recovery");
+            });
+
+            it("still requires recovery after another encryption toast was dismissed", async () => {
+                mockCrypto!.getActiveSessionBackupVersion.mockResolvedValue("1");
+                const instance = await createAndStart();
+                vi.mocked(SetupEncryptionToast.showToast).mockClear();
+                vi.mocked(SetupEncryptionToast.hideToast).mockClear();
+
+                instance.dismissEncryptionSetup();
+                await (instance as any).recheck();
+                await flushPromises();
+
+                expect(SetupEncryptionToast.showToast).toHaveBeenCalledWith("set_up_recovery");
             });
         });
     });

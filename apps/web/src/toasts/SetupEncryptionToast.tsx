@@ -18,6 +18,7 @@ import { DecryptionKeyDoesNotMatchError } from "matrix-js-sdk/src/crypto-api";
 import Modal from "../Modal";
 import { _t } from "../languageHandler";
 import { DeviceListener, type DeviceState } from "../device-listener";
+import RequiredRecoveryKeyDialog from "../components/views/dialogs/security/RequiredRecoveryKeyDialog";
 import SetupEncryptionDialog from "../components/views/dialogs/security/SetupEncryptionDialog";
 import { AccessCancelledError, accessSecretStorage } from "../SecurityManager";
 import ToastStore, { type IToast } from "../stores/ToastStore";
@@ -34,6 +35,25 @@ import { PosthogAnalytics } from "../PosthogAnalytics";
 import { encryptionSettingsStateForKeyStorageOutOfSyncForgotRecovery } from "../components/views/settings/tabs/user/EncryptionUserSettingsTab.tsx";
 
 const TOAST_KEY = "setupencryption";
+
+// Zemzemeh requires a recovery key: "set_up_recovery" blocks the app rather than offering a dismissible toast.
+let requiredRecoveryDialog: { close(): void } | null = null;
+
+const showRequiredRecoveryDialog = (): void => {
+    if (requiredRecoveryDialog) return;
+    const dialog = Modal.createDialog(RequiredRecoveryKeyDialog, {}, undefined, false, true, {
+        onBeforeClose: async (reason) => reason !== "backgroundClick",
+    });
+    requiredRecoveryDialog = dialog;
+    void dialog.finished.then(() => {
+        if (requiredRecoveryDialog === dialog) requiredRecoveryDialog = null;
+    });
+};
+
+const closeRequiredRecoveryDialog = (): void => {
+    requiredRecoveryDialog?.close();
+    requiredRecoveryDialog = null;
+};
 
 /**
  * The device states that we show a toast for (everything except for "ok").
@@ -155,6 +175,16 @@ const getDescription = (state: DeviceStateForToast): string | React.ReactNode =>
  * @param state The state of the device
  */
 export const showToast = (state: DeviceStateForToast): void => {
+    if (state === "set_up_recovery") {
+        ToastStore.sharedInstance().dismissToast(TOAST_KEY);
+        showRequiredRecoveryDialog();
+    } else {
+        closeRequiredRecoveryDialog();
+        showEncryptionToast(state);
+    }
+};
+
+const showEncryptionToast = (state: DeviceStateForToast): void => {
     const myLogger = logger.getChild(`SetupEncryptionToast[${state}]:`);
 
     const onPrimaryClick = async (): Promise<void> => {
@@ -367,5 +397,6 @@ export const showToast = (state: DeviceStateForToast): void => {
  * Hide the encryption setup toast if it is currently being shown.
  */
 export const hideToast = (): void => {
+    closeRequiredRecoveryDialog();
     ToastStore.sharedInstance().dismissToast(TOAST_KEY);
 };

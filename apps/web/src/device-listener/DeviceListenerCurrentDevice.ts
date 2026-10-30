@@ -187,7 +187,7 @@ export class DeviceListenerCurrentDevice {
             return;
         }
 
-        failed = await this.failIfRecoveryIsFailing(crypto, logSpan, keyBackupStatus);
+        failed = await this.failIfRecoveryIsFailing(crypto, logSpan);
         if (failed) {
             return;
         }
@@ -295,16 +295,10 @@ export class DeviceListenerCurrentDevice {
      * If the Recovery is enable but not working, show a toast and return true.
      * Otherwise, return false.
      */
-    private async failIfRecoveryIsFailing(
-        crypto: CryptoApi,
-        logSpan: LogSpan,
-        keyBackupStatus: KeyBackupStatus,
-    ): Promise<boolean> {
+    private async failIfRecoveryIsFailing(crypto: CryptoApi, logSpan: LogSpan): Promise<boolean> {
         const secretStorageStatus = await crypto.getSecretStorageStatus();
-        const recoveryDisabled = await this.recheckRecoveryDisabled(this.client);
-        const recoveryIsOk = secretStorageStatus.ready || recoveryDisabled || keyBackupStatus.disabled;
-
-        if (recoveryIsOk) {
+        // Zemzemeh requires a recovery key, so neither account-data opt-out counts.
+        if (secretStorageStatus.ready) {
             return false;
         } else {
             if (secretStorageStatus.defaultKeyId === null) {
@@ -384,7 +378,7 @@ export class DeviceListenerCurrentDevice {
 
         this.deviceListener.currentDeviceChangedEmitter.onStateChanged(newState);
 
-        if (newState === "ok" || this.dismissedThisDeviceToast) {
+        if (newState === "ok" || (this.dismissedThisDeviceToast && newState !== "set_up_recovery")) {
             hideSetupEncryptionToast();
         } else if (!isSecretStorageBeingAccessed()) {
             showSetupEncryptionToast(newState);
@@ -417,20 +411,6 @@ export class DeviceListenerCurrentDevice {
             ACCOUNT_DATA_KEY_M_KEY_BACKUP_DISABLED_UNSTABLE,
         );
         return !!keyBackupDisabledUnstable?.disabled;
-    }
-
-    /**
-     * Check whether the user has disabled recovery. If this is the first time,
-     * fetch it from the server (in case the initial sync has not finished).
-     * Otherwise, fetch it from the store as normal.
-     */
-    private async recheckRecoveryDisabled(cli: MatrixClient): Promise<boolean> {
-        const recoveryStatus = await cli.getAccountDataFromServer(RECOVERY_ACCOUNT_DATA_KEY);
-        // Recovery is disabled only if the `enabled` flag is set to `false`.
-        // If it is missing, or set to any other value, we consider it as
-        // not-disabled, and will prompt the user to create recovery (if
-        // missing).
-        return recoveryStatus?.enabled === false;
     }
 
     private onUserTrustStatusChanged = (userId: string): void => {

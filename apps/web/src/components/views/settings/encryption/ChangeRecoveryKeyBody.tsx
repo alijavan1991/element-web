@@ -44,9 +44,9 @@ interface ChangeRecoveryKeyBodyProps {
      */
     onFinish: () => void;
     /**
-     * Called when the cancel button is clicked.
+     * Called when the cancel button is clicked. Without it there is no cancel button.
      */
-    onCancelClick: () => void;
+    onCancelClick?: () => void;
     /**
      * Extra class name for the card, e.g. `mx_EncryptionCard_noBorder` when shown in a dialog.
      */
@@ -69,8 +69,9 @@ export function ChangeRecoveryKeyBody({
 
     const onCancelClickWrapper = useCallback(() => {
         logger.debug("ChangeRecoveryKey: user cancelled");
-        onCancelClick();
+        onCancelClick?.();
     }, [onCancelClick]);
+    const cancelHandler = onCancelClick ? onCancelClickWrapper : undefined;
 
     // We create a new recovery key, the recovery key will be displayed to the user
     const recoveryKey = useAsyncMemo(() => matrixClient.getCrypto()!.createRecoveryKeyFromPassphrase(), []);
@@ -86,7 +87,7 @@ export function ChangeRecoveryKeyBody({
                     // encodedPrivateKey is always defined, the optional typing is incorrect
                     recoveryKey={recoveryKey.encodedPrivateKey!}
                     onConfirmClick={() => setState("confirm_key_flow")}
-                    onCancelClick={onCancelClickWrapper}
+                    onCancelClick={cancelHandler}
                 />
             );
             break;
@@ -96,7 +97,7 @@ export function ChangeRecoveryKeyBody({
                 <KeyForm
                     // encodedPrivateKey is always defined, the optional typing is incorrect
                     recoveryKey={recoveryKey.encodedPrivateKey!}
-                    onCancelClick={onCancelClickWrapper}
+                    onCancelClick={cancelHandler}
                     onSubmit={async () => {
                         const crypto = matrixClient.getCrypto();
                         if (!crypto) return onFinish();
@@ -207,7 +208,7 @@ interface KeyPanelProps {
     /**
      * Called when the cancel button is clicked.
      */
-    onCancelClick: MouseEventHandler;
+    onCancelClick?: MouseEventHandler;
     /**
      * The recovery key to display.
      */
@@ -242,9 +243,11 @@ function KeyPanel({ recoveryKey, onConfirmClick, onCancelClick }: KeyPanelProps)
             </div>
             <EncryptionCardButtons>
                 <Button onClick={onConfirmClick}>{_t("action|continue")}</Button>
-                <Button kind="tertiary" onClick={onCancelClick}>
-                    {_t("action|cancel")}
-                </Button>
+                {onCancelClick && (
+                    <Button kind="tertiary" onClick={onCancelClick}>
+                        {_t("action|cancel")}
+                    </Button>
+                )}
             </EncryptionCardButtons>
         </>
     );
@@ -254,7 +257,7 @@ interface KeyFormProps {
     /**
      * Called when the cancel button is clicked.
      */
-    onCancelClick: MouseEventHandler;
+    onCancelClick?: MouseEventHandler;
     /**
      * Called when the form is submitted.
      */
@@ -317,9 +320,11 @@ function KeyForm({ onCancelClick, onSubmit, recoveryKey, submitButtonLabel }: Ke
             </Field>
             <EncryptionCardButtons>
                 <Button disabled={!isKeyValid || isKeyChangeInProgress}>{submitButtonLabel}</Button>
-                <Button kind="tertiary" onClick={onCancelClick}>
-                    {_t("action|cancel")}
-                </Button>
+                {onCancelClick && (
+                    <Button kind="tertiary" onClick={onCancelClick}>
+                        {_t("action|cancel")}
+                    </Button>
+                )}
             </EncryptionCardButtons>
         </Root>
     );
