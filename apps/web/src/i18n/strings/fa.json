@@ -1339,6 +1339,7 @@
             "recovery": {
                 "enter_key_error": "کلید بازیابی واردشده درست نیست.",
                 "enter_recovery_key": "کلید بازیابی را وارد کنید",
+                "save_key_description": "این کلید را با هیچ‌کس به اشتراک نگذارید!",
                 "save_key_title": "کلید بازیابی",
                 "set_up_recovery_confirm_button": "پایان راه‌اندازی",
                 "set_up_recovery_confirm_description": "برای پایان راه‌اندازی بازیابی، کلیدی را که در صفحهٔ قبل نشان داده شد وارد کنید.",
