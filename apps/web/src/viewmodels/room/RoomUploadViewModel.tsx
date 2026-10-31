@@ -198,6 +198,7 @@ export class RoomUploadViewModel
             {
                 inReplyToEventId: this.replyToEvent?.getId(),
                 relType: this.threadRelation?.rel_type,
+                threadRootEventId: this.threadRelation?.event_id,
             },
         );
     };

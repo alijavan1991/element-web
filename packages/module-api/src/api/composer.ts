@@ -37,8 +37,29 @@ export type ComposerApiFileUploadOption = {
         relation?: {
             inReplyToEventId?: string;
             relType?: string;
+            threadRootEventId?: string;
         },
     ) => Promise<void> | void;
+};
+
+/**
+ * A reference to a file held by Zemzemeh. It carries no bytes, storage key, credential or URL.
+ * @alpha Zemzemeh fork only
+ */
+export type ComposerApiFileReference = {
+    schema: 1;
+    /** 32 lowercase hexadecimal characters. */
+    file_id: string;
+    /** 64 lowercase hexadecimal characters. */
+    file_version: string;
+    /** The file's classification label, 1 to 64 characters. */
+    classification: string;
+    display: {
+        /** At most 1024 characters. */
+        name: string;
+        content_type: string;
+        size: number;
+    };
 };
 
 /**
@@ -75,4 +96,19 @@ export interface ComposerApi {
      * @alpha Likely to change
      */
     insertPlaintextIntoComposer(plaintext: string, view: ComposerApiTarget): void;
+    /**
+     * Send a file reference to a room. Only the fields of {@link ComposerApiFileReference} are sent.
+     * @param roomId - The room to send to.
+     * @param reference - The reference. Rejects without sending if it does not match the schema.
+     * @param relation - The reply and thread to keep, from the upload option's `onSelected`.
+     * @param view - The composer whose reply state to clear once a reply is sent. Defaults to `{ view: "room" }`
+     * @returns The event ID.
+     * @alpha Zemzemeh fork only
+     */
+    sendFileReference(
+        roomId: string,
+        reference: ComposerApiFileReference,
+        relation?: { inReplyToEventId?: string; threadRootEventId?: string },
+        view?: ComposerApiTarget,
+    ): Promise<string>;
 }

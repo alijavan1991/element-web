@@ -76,6 +76,7 @@ describe("RoomUploadViewModel", () => {
             replyEv,
             {
                 rel_type: "any_type",
+                event_id: "$any_event",
             },
             () => {},
             compApi,
@@ -100,6 +101,7 @@ describe("RoomUploadViewModel", () => {
             {
                 inReplyToEventId: replyEv.getId(),
                 relType: "any_type",
+                threadRootEventId: "$any_event",
             },
         );
     });

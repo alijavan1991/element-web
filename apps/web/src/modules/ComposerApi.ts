@@ -7,16 +7,19 @@ Please see LICENSE files in the repository root for full details.
 
 import {
     type ComposerApi as ModuleComposerApi,
+    type ComposerApiFileReference,
     type ComposerApiFileUploadOption,
     type ComposerApiTarget,
 } from "@element-hq/element-web-module-api";
-import { TypedEventEmitter } from "matrix-js-sdk/src/matrix";
+import { EventType, TypedEventEmitter } from "matrix-js-sdk/src/matrix";
 
 import type { MatrixDispatcher } from "../dispatcher/dispatcher";
 import { Action } from "../dispatcher/actions";
 import { ComposerType, type ComposerInsertPayload } from "../dispatcher/payloads/ComposerInsertPayload";
 import { TimelineRenderingType } from "../contexts/RoomContext";
 import type { ComposerInsertFilesPayload } from "../dispatcher/payloads/ComposerInsertFilePayload";
+import { MatrixClientPeg } from "../MatrixClientPeg";
+import { fileReferenceContent } from "./fileReferenceContent";
 
 export enum ModuleComposerApiEvents {
     UploaderOptionsChanged = "uploaderOptionsChanged",
@@ -52,6 +55,30 @@ export class ComposerApi
         }
         this.configuredFileUploadOptions.set(option.type, option);
         this.emit(ModuleComposerApiEvents.UploaderOptionsChanged, option);
+    }
+
+    public async sendFileReference(
+        roomId: string,
+        reference: ComposerApiFileReference,
+        relation?: { inReplyToEventId?: string; threadRootEventId?: string },
+        view: ComposerApiTarget = { view: "room" },
+    ): Promise<string> {
+        const content = fileReferenceContent(reference, relation?.inReplyToEventId);
+        const threadId = relation?.threadRootEventId ?? null;
+        const { event_id: eventId } = await MatrixClientPeg.safeGet().sendEvent(
+            roomId,
+            threadId,
+            EventType.RoomMessage,
+            content,
+        );
+        if (relation?.inReplyToEventId) {
+            this.dispatcher.dispatch({
+                action: "reply_to_event",
+                event: null,
+                context: view.view === "thread" ? TimelineRenderingType.Thread : TimelineRenderingType.Room,
+            });
+        }
+        return eventId;
     }
 
     public openFileUploadConfirmation(files: File[], view: ComposerApiTarget = { view: "room" }): void {

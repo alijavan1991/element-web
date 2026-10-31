@@ -111,7 +111,25 @@ export interface ComposerApi {
     addFileUploadOption(option: ComposerApiFileUploadOption): void;
     insertPlaintextIntoComposer(plaintext: string, view: ComposerApiTarget): void;
     openFileUploadConfirmation(files: File[], view: ComposerApiTarget): void;
+    // @alpha
+    sendFileReference(roomId: string, reference: ComposerApiFileReference, relation?: {
+        inReplyToEventId?: string;
+        threadRootEventId?: string;
+    }, view?: ComposerApiTarget): Promise<string>;
 }
+
+// @alpha
+export type ComposerApiFileReference = {
+    schema: 1;
+    file_id: string;
+    file_version: string;
+    classification: string;
+    display: {
+        name: string;
+        content_type: string;
+        size: number;
+    };
+};
 
 // @alpha
 export type ComposerApiFileUploadOption = {
@@ -121,6 +139,7 @@ export type ComposerApiFileUploadOption = {
     onSelected: (roomId?: string, view?: ComposerApiTarget, relation?: {
         inReplyToEventId?: string;
         relType?: string;
+        threadRootEventId?: string;
     }) => Promise<void> | void;
 };
 
