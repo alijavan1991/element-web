@@ -26,6 +26,7 @@ import ElectronPlatform from "./platform/ElectronPlatform";
 import PWAPlatform from "./platform/PWAPlatform";
 import WebPlatform from "./platform/WebPlatform";
 import { initRageshake, initRageshakeStore } from "./rageshakesetup";
+import { textDirection } from "./direction";
 import { ModuleApi } from "../modules/Api.ts";
 import { type URLParams } from "./url_utils.ts";
 
@@ -113,6 +114,7 @@ export async function loadLanguage(): Promise<void> {
     try {
         await setLanguage(...langs);
         document.documentElement.setAttribute("lang", getCurrentLanguage());
+        document.documentElement.setAttribute("dir", textDirection(getCurrentLanguage()));
     } catch (e) {
         logger.error("Unable to set language", e);
     }
