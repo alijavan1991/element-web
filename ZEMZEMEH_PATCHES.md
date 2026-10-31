@@ -3,6 +3,14 @@
 Changes this fork carries on top of upstream Element Web. Keep this list current, and review it on each
 rebase. Base: upstream `v1.12.33`, branch `zemzemeh/main`.
 
+## Attach from Zemzemeh
+
+- `modules/zemzemeh-attach`: new workspace module, loaded through `modules` in `config.json`. Adds the upload
+  option and frames Zemzemeh's picker; see its README. It adds a project, so `pnpm-lock.yaml` gains entries.
+  It does not send the reference event or remove Element's own upload option yet.
+
+`I18nApi.register` stores keys as they are, without splitting on `|`, so module translation keys must be flat.
+
 ## Required recovery key
 
 Zemzemeh requires device verification, and a user with no recovery key cannot verify a later device.
