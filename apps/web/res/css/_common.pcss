@@ -63,6 +63,13 @@ Please see LICENSE files in the repository root for full details.
 }
 
 /**
+ * Radix menus set dir="ltr" on themselves unless given a direction, and they open in separate React roots.
+ */
+[dir="rtl"] [data-radix-menu-content] {
+    direction: rtl;
+}
+
+/**
  * We need to increase the specificity of the selector to override the
  * custom property set by the design tokens package
  */

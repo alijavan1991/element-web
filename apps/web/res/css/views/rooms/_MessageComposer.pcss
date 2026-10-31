@@ -229,6 +229,11 @@ Please see LICENSE files in the repository root for full details.
     }
 }
 
+/* The arrow points the way the text runs. */
+[dir="rtl"] .mx_MessageComposer_sendMessage svg {
+    transform: scaleX(-1);
+}
+
 .mx_MatrixChat_useCompactLayout {
     .mx_MessageComposer_input {
         min-height: 50px;

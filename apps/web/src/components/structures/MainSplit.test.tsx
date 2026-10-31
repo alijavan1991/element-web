@@ -40,6 +40,22 @@ describe("<MainSplit/>", () => {
         expect(container.querySelector<HTMLElement>(".mx_RightPanel_ResizeWrapper")!.style.width).toBe("320px");
     });
 
+    it("puts the resize handle on the side facing the room", () => {
+        const handle = (): HTMLElement =>
+            render(
+                <MainSplit children={children} panel={panel} analyticsRoomType="other_room" />,
+            ).container.querySelector(".mx_ResizeHandle--horizontal")!;
+        expect(handle().style.left).not.toBe("");
+
+        document.documentElement.setAttribute("dir", "rtl");
+        try {
+            expect(handle().style.right).not.toBe("");
+            expect(handle().style.left).toBe("");
+        } finally {
+            document.documentElement.removeAttribute("dir");
+        }
+    });
+
     it("respects defaultSize prop", () => {
         const { asFragment, container } = render(
             <MainSplit children={children} panel={panel} defaultSize={500} analyticsRoomType="other_room" />,

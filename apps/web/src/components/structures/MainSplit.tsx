@@ -101,6 +101,8 @@ export default class MainSplit extends React.Component<IProps> {
 
         let children;
         if (hasResizer) {
+            // The panel sits on the other side in right-to-left languages, so its handle has to as well.
+            const handleSide = document.documentElement.dir === "rtl" ? "right" : "left";
             children = (
                 <Resizable
                     key={this.props.sizeKey}
@@ -109,9 +111,9 @@ export default class MainSplit extends React.Component<IProps> {
                     maxWidth="50%"
                     enable={{
                         top: false,
-                        right: false,
+                        right: handleSide === "right",
                         bottom: false,
-                        left: true,
+                        left: handleSide === "left",
                         topRight: false,
                         bottomRight: false,
                         bottomLeft: false,
@@ -121,7 +123,7 @@ export default class MainSplit extends React.Component<IProps> {
                     onResize={this.onResize}
                     onResizeStop={this.onResizeStop}
                     className="mx_RightPanel_ResizeWrapper"
-                    handleClasses={{ left: "mx_ResizeHandle--horizontal" }}
+                    handleClasses={{ [handleSide]: "mx_ResizeHandle--horizontal" }}
                 >
                     {panelView}
                 </Resizable>

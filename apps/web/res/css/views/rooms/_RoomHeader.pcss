@@ -69,6 +69,11 @@ Please see LICENSE files in the repository root for full details.
     min-width: 0;
 }
 
+/* dir="auto" starts a Latin room name at the far side of the header, away from its avatar. */
+[dir="rtl"] .mx_RoomHeader_heading:dir(ltr) {
+    justify-content: flex-end;
+}
+
 .mx_RoomHeader_userStatus {
     flex-shrink: 1;
     min-width: 0;
