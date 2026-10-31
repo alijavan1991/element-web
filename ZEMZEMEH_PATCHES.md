@@ -18,3 +18,27 @@ Zemzemeh requires device verification, and a user with no recovery key cannot ve
 
 Upstream's "Can't confirm?" on the device verification screen is unchanged. It lets a user reset their identity,
 which loses access to earlier encrypted history.
+
+## Right-to-left interface
+
+Upstream has no right-to-left support. Zemzemeh's users work in Persian.
+
+- `apps/web/webpack.config.ts`: `postcss-rtlcss` generates `[dir="rtl"]` overrides at build time, so the 556
+  left/right rules upstream keeps across 192 style files stay untouched and rebases stay clean. It runs on exit,
+  after variables resolve. `safeBothPrefix` keeps a later reset winning over a flipped rule; it prefixes flippable
+  rules with `[dir]`, so every page needs that attribute.
+- `apps/web/src/vector/*/index.html`, `apps/web/src/vector/index.html`, `apps/web/src/usercontent/**/index.html`:
+  `dir="ltr"` from the start, including when loading the language fails.
+- `apps/web/src/vector/direction.ts`, `init.tsx`: `dir` follows the language (`fa`, `he`) at startup. Changing
+  language already reloads the app.
+- `apps/web/src/components/structures/MainSplit.tsx`: the right panel's handle is chosen in code, so it needs the
+  side facing the room.
+- `apps/web/res/css/_common.pcss`: Radix menus force `dir="ltr"` on themselves.
+- `apps/web/res/css/views/rooms/_RoomHeader.pcss`: a Latin room name stays beside its avatar.
+- `apps/web/res/css/views/rooms/_MessageComposer.pcss`: the send arrow points the way the text runs.
+
+Do not patch `react-resizable-panels` for this: it orders panels by position on screen, so dragging and arrow keys
+already follow the direction.
+
+Check with `integrations/matrix/acceptance/rtl.cjs` in the Zemzemeh repository. `fa.json` lacks about 47% of the
+strings upstream, which then show in English.
