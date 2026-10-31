@@ -7,7 +7,12 @@ rebase. Base: upstream `v1.12.33`, branch `zemzemeh/main`.
 
 - `modules/zemzemeh-attach`: new workspace module, loaded through `modules` in `config.json`. Adds the upload
   option and frames Zemzemeh's picker; see its README. It adds a project, so `pnpm-lock.yaml` gains entries.
-  It does not send the reference event or remove Element's own upload option yet.
+  It does not remove Element's own upload option yet.
+- `packages/module-api/src/api/composer.ts`, `apps/web/src/modules/ComposerApi.ts`, `fileReferenceContent.ts`:
+  `sendFileReference`, the one send function the module has. It builds the content field by field, so nothing else
+  a module passes can reach an event, and clears the composer's reply state after a reply. The API report
+  (`element-web-module-api.api.md`) was edited by hand.
+- `apps/web/src/viewmodels/room/RoomUploadViewModel.tsx`: upload options also receive the thread root.
 
 `I18nApi.register` stores keys as they are, without splitting on `|`, so module translation keys must be flat.
 
