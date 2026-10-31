@@ -8,7 +8,7 @@ Messages are accepted only from the framed picker's window at the configured ori
 
 References render as a file card. The card asks Zemzemeh about the file each time it appears, and what Zemzemeh verifies
 wins over the event's values, which are untrusted. When a chat session has expired, a hidden picker frame renews it
-silently; if it cannot, the card offers a sign-in window. Opening a file is not part of the card yet.
+silently; if it cannot, the card offers a sign-in window. **Open** goes to Zemzemeh's viewer in its own tab.
 
 This module needs the fork: `sendFileReference` is not in upstream's Module API. It does not remove Element's own upload
 option; see `ZEMZEMEH_PATCHES.md` in the repository root.

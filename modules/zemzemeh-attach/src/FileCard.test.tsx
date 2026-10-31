@@ -100,6 +100,28 @@ describe("FileCard", () => {
         expect(card).not.toContain("zemzemeh_label_internal");
     });
 
+    test("an available file opens in the viewer, in its own tab, for this room and version", async () => {
+        fetchMock.mockResolvedValue(reply(200, VERIFIED));
+        setup();
+        const link = await screen.findByRole("link", { name: "zemzemeh_card_open" });
+        expect(link.getAttribute("href")).toBe(
+            `${ORIGIN}/chat/view/${FILE}?room_id=${encodeURIComponent(ROOM)}&version=${VERSION}&lang=en`,
+        );
+        expect(link.getAttribute("target")).toBe("_blank");
+        expect(link.getAttribute("rel")).toBe("noopener noreferrer");
+    });
+
+    test.each([
+        ["changed", () => reply(200, { state: "changed" }), "zemzemeh_card_changed"],
+        ["unavailable", () => reply(404), "zemzemeh_card_unavailable"],
+        ["unreachable", () => reply(503), "zemzemeh_card_retry_text"],
+    ])("a file that is %s has nothing to open", async (_name, answer, text) => {
+        fetchMock.mockResolvedValue(answer());
+        setup();
+        await screen.findByText(text);
+        expect(screen.queryByRole("link")).toBeNull();
+    });
+
     test("event values are shown as text, never as markup", async () => {
         const name = '<img src=x onerror="alert(1)">';
         fetchMock.mockResolvedValue(reply(404));

@@ -24,7 +24,11 @@ export interface PickerDialogProps {
     title: string;
 }
 
-function pickerLanguage(language: string): "fa" | "en" {
+/**
+ * The language Zemzemeh's pages should use for Element's language.
+ * @param language - Element's language, as an IETF tag.
+ */
+export function pickerLanguage(language: string): "fa" | "en" {
     return language.toLowerCase().split(/[-_]/)[0] === "fa" ? "fa" : "en";
 }
 

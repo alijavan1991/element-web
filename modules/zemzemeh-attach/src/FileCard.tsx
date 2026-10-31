@@ -10,6 +10,7 @@ import { z } from "zod/mini";
 
 import type { I18nApi, MatrixEvent } from "@element-hq/element-web-module-api";
 import type { ChatSession } from "./ChatSession";
+import { pickerLanguage } from "./PickerDialog";
 import { FileRefContent } from "./protocol";
 
 // A stopped backend can leave a request waiting on the proxy for a minute; offer another try well before that.
@@ -195,6 +196,20 @@ export function FileCard({ mxEvent, origin, i18n, session }: FileCardProps): JSX
             </div>
             {statusKey && <div style={STATUS_STYLE}>{i18n.translate(statusKey)}</div>}
             {unverified && <div style={MUTED_STYLE}>{i18n.translate("zemzemeh_card_unverified")}</div>}
+            {state.kind === "available" && (
+                <div style={ACTIONS_STYLE}>
+                    <a
+                        href={
+                            `${origin}/chat/view/${content.file_id}?room_id=${encodeURIComponent(mxEvent.roomId)}` +
+                            `&version=${content.file_version}&lang=${pickerLanguage(i18n.language)}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        {i18n.translate("zemzemeh_card_open")}
+                    </a>
+                </div>
+            )}
             {(state.kind === "retry" || state.kind === "signin") && (
                 <div style={ACTIONS_STYLE}>
                     {state.kind === "signin" && (

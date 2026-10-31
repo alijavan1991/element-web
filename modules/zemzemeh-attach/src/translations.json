@@ -35,6 +35,10 @@
         "en": "Sign in to Zemzemeh to check this file.",
         "fa": "برای بررسی این فایل به زمزمه وارد شوید."
     },
+    "zemzemeh_card_open": {
+        "en": "Open",
+        "fa": "باز کردن"
+    },
     "zemzemeh_card_signin": {
         "en": "Sign in",
         "fa": "ورود"
