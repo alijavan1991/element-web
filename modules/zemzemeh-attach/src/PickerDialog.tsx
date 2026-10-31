@@ -8,10 +8,7 @@ Please see LICENSE files in the repository root for full details.
 import { type JSX, useEffect, useRef } from "react";
 
 import type { DialogProps } from "@element-hq/element-web-module-api";
-import { type FileRefContent, parsePickerMessage } from "./protocol";
-
-// Same-origin keeps the picker's cookie and API calls working; popups let it open the sign-in window.
-const SANDBOX = "allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox";
+import { type FileRefContent, parsePickerMessage, PICKER_SANDBOX } from "./protocol";
 
 /**
  * Props for {@link PickerDialog}.
@@ -64,7 +61,7 @@ export function PickerDialog({
             ref={frame}
             src={`${origin}/chat/picker?lang=${pickerLanguage(language)}`}
             title={title}
-            sandbox={SANDBOX}
+            sandbox={PICKER_SANDBOX}
             referrerPolicy="no-referrer"
             style={{ display: "block", width: "100%", height: "min(70vh, 560px)", border: 0 }}
         />

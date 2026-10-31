@@ -16,7 +16,7 @@ import baseConfig from "@element-hq/element-web-module-api/vite.base.ts";
 export default mergeConfig(baseConfig, {
     build: {
         lib: {
-            entry: fileURLToPath(import.meta.resolve("./src/index.ts")),
+            entry: fileURLToPath(import.meta.resolve("./src/index.tsx")),
             name: "element-web-module-zemzemeh-attach",
             fileName: "index",
             formats: ["es"],

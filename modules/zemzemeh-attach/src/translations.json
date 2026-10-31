@@ -6,5 +6,61 @@
     "zemzemeh_attach_title": {
         "en": "Attach from Zemzemeh",
         "fa": "پیوست از زمزمه"
+    },
+    "zemzemeh_send_failed": {
+        "en": "The file was not sent. Attach it again to retry.",
+        "fa": "فایل ارسال نشد. برای تلاش دوباره، آن را دوباره پیوست کنید."
+    },
+    "zemzemeh_card_invalid": {
+        "en": "Invalid file reference",
+        "fa": "ارجاع فایل نامعتبر است"
+    },
+    "zemzemeh_card_checking": {
+        "en": "Checking this file…",
+        "fa": "در حال بررسی این فایل…"
+    },
+    "zemzemeh_card_changed": {
+        "en": "This file has changed since it was shared.",
+        "fa": "این فایل پس از اشتراک‌گذاری تغییر کرده است."
+    },
+    "zemzemeh_card_unavailable": {
+        "en": "This file isn't available to you.",
+        "fa": "این فایل برای شما در دسترس نیست."
+    },
+    "zemzemeh_card_retry_text": {
+        "en": "Zemzemeh can't be reached right now.",
+        "fa": "در حال حاضر دسترسی به زمزمه ممکن نیست."
+    },
+    "zemzemeh_card_signin_text": {
+        "en": "Sign in to Zemzemeh to check this file.",
+        "fa": "برای بررسی این فایل به زمزمه وارد شوید."
+    },
+    "zemzemeh_card_signin": {
+        "en": "Sign in",
+        "fa": "ورود"
+    },
+    "zemzemeh_card_try_again": {
+        "en": "Try again",
+        "fa": "تلاش دوباره"
+    },
+    "zemzemeh_card_unverified": {
+        "en": "Not verified: these details come from the sender.",
+        "fa": "تأیید نشده: این مشخصات از سوی فرستنده است."
+    },
+    "zemzemeh_label_public": {
+        "en": "Public",
+        "fa": "عمومی"
+    },
+    "zemzemeh_label_internal": {
+        "en": "Internal",
+        "fa": "داخلی"
+    },
+    "zemzemeh_label_confidential": {
+        "en": "Confidential",
+        "fa": "محرمانه"
+    },
+    "zemzemeh_label_restricted": {
+        "en": "Restricted",
+        "fa": "محدود"
     }
 }

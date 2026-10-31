@@ -8,6 +8,11 @@ Please see LICENSE files in the repository root for full details.
 import { z } from "zod/mini";
 
 /**
+ * Same-origin keeps the picker's cookie and API calls working; popups let it open the sign-in window.
+ */
+export const PICKER_SANDBOX = "allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox";
+
+/**
  * The content of a file reference event. Unknown fields are stripped, so nothing the picker adds can reach a Matrix event.
  */
 export const FileRefContent = z.object({
