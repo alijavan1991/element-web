@@ -25,6 +25,8 @@ import postcssPresetEnv from "postcss-preset-env";
 import postcssImport from "postcss-import";
 import postcssMixins from "postcss-mixins";
 import postcssNested from "postcss-nested";
+import postcssRtlcss from "postcss-rtlcss";
+import { Mode } from "postcss-rtlcss/options";
 
 import pkgJson from "./package.json" with { type: "json" };
 import { I18nWebpackPlugin } from "./I18nWebpackPlugin.ts";
@@ -361,6 +363,11 @@ export default (env: string, argv: Record<string, any>): webpack.Configuration =
                                         postcssSimpleVars(),
                                         postcssHexrgba(),
 
+                                        // Adds [dir="rtl"] overrides and keeps the left-to-right rules. It must see resolved
+                                        // variables, or it reads $accent-300 as a position, so it runs on exit. The prefix on
+                                        // every flippable rule lets a later reset still win; each page's <html> carries dir.
+                                        postcssRtlcss({ mode: Mode.override, runOnExit: true, safeBothPrefix: true }),
+
                                         // It's important that this plugin is last otherwise we end
                                         // up with broken CSS.
                                         postcssPresetEnv({ stage: 3, browsers: "last 2 versions" }),
@@ -397,6 +404,11 @@ export default (env: string, argv: Record<string, any>): webpack.Configuration =
                                         postcssSimpleVars(),
                                         postcssNested(),
                                         postcssHexrgba(),
+
+                                        // Adds [dir="rtl"] overrides and keeps the left-to-right rules. It must see resolved
+                                        // variables, or it reads $accent-300 as a position, so it runs on exit. The prefix on
+                                        // every flippable rule lets a later reset still win; each page's <html> carries dir.
+                                        postcssRtlcss({ mode: Mode.override, runOnExit: true, safeBothPrefix: true }),
 
                                         // It's important that this plugin is last otherwise we end
                                         // up with broken CSS.
