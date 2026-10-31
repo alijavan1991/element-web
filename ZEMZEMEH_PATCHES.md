@@ -40,5 +40,14 @@ Upstream has no right-to-left support. Zemzemeh's users work in Persian.
 Do not patch `react-resizable-panels` for this: it orders panels by position on screen, so dragging and arrow keys
 already follow the direction.
 
-Check with `integrations/matrix/acceptance/rtl.cjs` in the Zemzemeh repository. `fa.json` lacks about 47% of the
-strings upstream, which then show in English.
+Check with `integrations/matrix/acceptance/rtl.cjs` in the Zemzemeh repository.
+
+## Persian strings
+
+- `apps/web/src/i18n/strings/fa.json`, `packages/shared-components/src/i18n/strings/fa.json`: 1,751 strings added,
+  and a handful of existing ones corrected or aligned (`keyboard|space`, `common|space`, `common|threads`). All are
+  machine-drafted and need native review. Developer tools strings stay in English.
+
+Terms: room اتاق, space فضا, thread رشته گفتگو, device دستگاه, session نشست, recovery key کلید بازیابی, digital
+identity هویت دیجیتال, widget ابزارک. On a rebase, upstream's translation updates may conflict with these files; keep
+ours where upstream still has no string.
