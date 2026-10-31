@@ -1,14 +1,276 @@
 {
+    "a11y": {
+        "seek_bar_label": "نوار پیمایش صدا"
+    },
     "action": {
+        "back": "بازگشت",
+        "cancel": "لغو",
+        "click": "انتخاب",
+        "close": "بستن",
+        "collapse": "جمع کردن",
         "delete": "پاک‌کردن",
         "dismiss": "نادیده بگیر",
+        "download": "دانلود",
+        "edit": "ویرایش",
         "explore_rooms": "جستجو در اتاق ها",
+        "go": "برو",
+        "hide": "پنهان کردن",
+        "invite": "دعوت",
+        "new_conversation": "جدید",
+        "new_room": "اتاق جدید",
+        "new_section": "بخش جدید",
+        "new_video_room": "اتاق تصویری جدید",
+        "no": "خیر",
+        "open_menu": "باز کردن منو",
         "pause": "متوقف‌کردن",
+        "pin": "سنجاق",
         "play": "اجرا کردن",
-        "search": "جستجو"
+        "react": "واکنش",
+        "remove": "حذف",
+        "remove_this_device": "حذف این دستگاه",
+        "reply": "پاسخ",
+        "reply_in_thread": "پاسخ در رشته گفتگو",
+        "retry": "تلاش دوباره",
+        "save": "ذخیره",
+        "search": "جستجو",
+        "start_chat": "آغاز گفتگو",
+        "unpin": "برداشتن سنجاق",
+        "view_source": "مشاهده منبع",
+        "yes": "بله"
+    },
+    "common": {
+        "attachment": "پیوست",
+        "encryption_enabled": "رمزنگاری فعال است",
+        "loading": "در حال بارگذاری…",
+        "options": "گزینه‌ها",
+        "preferences": "ترجیحات",
+        "state_encryption_enabled": "رمزنگاری آزمایشی وضعیت فعال است"
+    },
+    "composer": {
+        "url_preview": {
+            "clear_all": "پاک کردن همه",
+            "collapse": "جمع کردن پیش‌نمایش نشانی‌ها",
+            "failed": "دریافت پیش‌نمایش ناموفق بود",
+            "loading": "در حال دریافت پیش‌نمایش…",
+            "n_links": {
+                "one": "%(count)s پیوند",
+                "other": "%(count)s پیوند"
+            },
+            "remove": "حذف پیش‌نمایش نشانی"
+        }
+    },
+    "document_viewer": {
+        "error_load": "بارگذاری این پرونده ممکن نشد.",
+        "loading": "در حال بارگذاری سند…"
+    },
+    "emoji": {
+        "categories": "دسته‌ها",
+        "category_activities": "فعالیت‌ها",
+        "category_animals_nature": "حیوانات و طبیعت",
+        "category_flags": "پرچم‌ها",
+        "category_food_drink": "غذا و نوشیدنی",
+        "category_frequently_used": "پرکاربرد",
+        "category_objects": "اشیا",
+        "category_smileys_people": "لبخندها و افراد",
+        "category_symbols": "نمادها",
+        "category_travel_places": "سفر و مکان‌ها",
+        "quick_reactions": "واکنش‌های سریع"
+    },
+    "emoji_picker": {
+        "cancel_search_label": "لغو جستجو",
+        "emoji_picker": "انتخاب شکلک"
+    },
+    "error": {
+        "legacy_crypto_unsupported": {
+            "actions": "لطفاً ابتدا به نسخه <b>%(version)s</b> برگردید یا این دستگاه را حذف کنید.",
+            "description": "%(brand)s از نسخه‌ای بسیار قدیمی به‌روز شده و نمی‌تواند فضای ذخیره رمزنگاری شما را به قالب جدید منتقل کند.",
+            "title": "این دستگاه قابل استفاده نیست"
+        }
+    },
+    "keyboard": {
+        "shift": "Shift"
     },
     "left_panel": {
-        "open_dial_pad": "باز کردن صفحه شماره‌گیری"
+        "open_dial_pad": "باز کردن صفحه شماره‌گیری",
+        "separator_label": "برای باز کردن کلیک کنید یا بکشید"
+    },
+    "menus": {
+        "user_menu": {
+            "clear_status": "پاک کردن وضعیت",
+            "create_an_account": "ایجاد حساب",
+            "got_an_account": "قبلاً حساب دارید؟",
+            "sign_in": "ورود",
+            "title": "منوی کاربر"
+        }
+    },
+    "notifications": {
+        "all_messages": "همه پیام‌ها",
+        "default_settings": "مطابق تنظیمات پیش‌فرض",
+        "mark_all_read": "علامت‌گذاری همه به عنوان خوانده‌شده",
+        "mentions_keywords": "اشاره‌ها و کلیدواژه‌ها",
+        "message_didnt_send": "پیام ارسال نشد. برای اطلاعات بیشتر انتخاب کنید.",
+        "mute_room": "بی‌صدا کردن اتاق"
+    },
+    "pdf_viewer": {
+        "page_label": "صفحه %(page)s از %(total)s",
+        "page_number": "شماره صفحه",
+        "zoom": "بزرگ‌نمایی",
+        "zoom_in": "بزرگ‌تر",
+        "zoom_out": "کوچک‌تر"
+    },
+    "release_announcement": {
+        "room_list_section_close": "باشه",
+        "room_list_section_description": "گفتگوهای خود را در بخش‌ها گروه‌بندی کنید تا منظم و یافتن آن‌ها آسان باشد.",
+        "room_list_section_title": "معرفی بخش‌ها"
+    },
+    "room": {
+        "context_menu": {
+            "title": "گزینه‌های اتاق"
+        },
+        "history_visibility_badge": {
+            "private": "اعضای جدید تاریخچه را نمی‌بینند",
+            "shared": "اعضای جدید تاریخچه را می‌بینند",
+            "world_readable": "همه می‌توانند تاریخچه را ببینند"
+        },
+        "jump_read_marker": "پیمایش به نخستین پیام خوانده‌نشده.",
+        "jump_to_bottom_button": "پیمایش به جدیدترین پیام‌ها",
+        "jump_to_date": "پیمایش به تاریخ",
+        "jump_to_date_beginning": "آغاز اتاق",
+        "jump_to_date_prompt": "تاریخی را برای پیمایش انتخاب کنید",
+        "knock_sent": "درخواست پیوستن ارسال شد",
+        "pinned_message_badge": "پیام سنجاق‌شده",
+        "status_bar": {
+            "contact_account_provider": "تماس با ارائه‌دهنده حساب",
+            "delete_all": "حذف همه",
+            "exceeded_resource_limit_description": "برای ادامه استفاده از سرویس، لطفاً با ارائه‌دهنده حساب خود تماس بگیرید.",
+            "exceeded_resource_limit_title": "پیام شما ارسال نشد، زیرا این سرویس از محدودیت منابع فراتر رفته است.",
+            "failed_to_create_room_title": "آغاز گفتگو با این کاربر ممکن نشد",
+            "homeserver_blocked_title": "پیام شما ارسال نشد، زیرا این سرویس توسط ارائه‌دهنده حساب مسدود شده است.",
+            "monthly_user_limit_reached_title": "پیام شما ارسال نشد، زیرا این سرویس به محدودیت کاربران فعال ماهانه رسیده است.",
+            "requires_consent_agreement_title": "تا زمانی که شرایط و ضوابط ما را بررسی و تأیید نکنید نمی‌توانید پیامی بفرستید.",
+            "retry_all": "تلاش دوباره برای همه",
+            "select_messages_to_retry": "می‌توانید همه پیام‌ها یا پیام‌های جداگانه را برای تلاش دوباره یا حذف انتخاب کنید",
+            "server_connectivity_lost_description": "پیام‌های ارسالی تا برقراری دوباره اتصال نگه داشته می‌شوند.",
+            "server_connectivity_lost_title": "اتصال به سرور قطع شده است.",
+            "some_messages_not_sent": "برخی از پیام‌های شما ارسال نشده‌اند"
+        }
+    },
+    "room_list": {
+        "a11y": {
+            "default": "باز کردن اتاق %(roomName)s",
+            "drag_cancelled": "کشیدن لغو شد",
+            "drag_end": "%(source)s روی %(target)s رها شد",
+            "drag_end_after": "%(source)s پس از %(target)s رها شد",
+            "drag_end_before": "%(source)s پیش از %(target)s رها شد",
+            "drag_end_original": "%(source)s به جای اصلی خود برگشت",
+            "drag_instructions": "برای آغاز یا پایان کشیدن کلید فاصله، برای جابه‌جایی کلیدهای جهت‌نما و برای لغو کلید Escape را بزنید.",
+            "drag_over": "%(source)s روی %(target)s است",
+            "drag_over_after": "%(source)s پس از %(target)s رها می‌شود",
+            "drag_over_before": "%(source)s پیش از %(target)s رها می‌شود",
+            "drag_over_original": "%(source)s به جای اصلی خود برمی‌گردد",
+            "drag_start": "در حال کشیدن %(source)s",
+            "invitation": "باز کردن دعوت اتاق %(roomName)s.",
+            "mention": {
+                "one": "باز کردن اتاق %(roomName)s با ۱ اشاره خوانده‌نشده.",
+                "other": "باز کردن اتاق %(roomName)s با %(count)s اشاره خوانده‌نشده."
+            },
+            "unread": {
+                "one": "باز کردن اتاق %(roomName)s با ۱ پیام خوانده‌نشده.",
+                "other": "باز کردن اتاق %(roomName)s با %(count)s پیام خوانده‌نشده."
+            },
+            "unsent_message": "باز کردن اتاق %(roomName)s با یک پیام ارسال‌نشده.",
+            "video_call": "باز کردن اتاق %(roomName)s، تماس تصویری در جریان است.",
+            "voice_call": "باز کردن اتاق %(roomName)s، تماس صوتی در جریان است."
+        },
+        "appearance": "ظاهر",
+        "chat_moved": "گفتگو منتقل شد",
+        "collapse_all_sections": "جمع کردن همه بخش‌ها",
+        "collapse_filters": "جمع کردن فهرست فیلترها",
+        "empty": {
+            "no_chats": "هنوز گفتگویی ندارید",
+            "no_chats_description": "با پیام دادن به کسی یا ساختن یک اتاق شروع کنید",
+            "no_chats_description_no_room_rights": "با پیام دادن به کسی شروع کنید",
+            "no_invites": "دعوت خوانده‌نشده‌ای ندارید",
+            "no_mentions": "اشاره خوانده‌نشده‌ای ندارید",
+            "no_people": "هنوز با کسی گفتگوی مستقیم ندارید",
+            "no_people_description": "برای دیدن گفتگوهای دیگر می‌توانید فیلترها را بردارید",
+            "no_rooms": "هنوز در هیچ اتاقی نیستید",
+            "no_rooms_description": "برای دیدن گفتگوهای دیگر می‌توانید فیلترها را بردارید",
+            "no_unread": "تبریک! پیام خوانده‌نشده‌ای ندارید",
+            "show_activity": "مشاهده همه فعالیت‌ها",
+            "show_chats": "نمایش همه گفتگوها"
+        },
+        "expand_all_sections": "باز کردن همه بخش‌ها",
+        "expand_filters": "باز کردن فهرست فیلترها",
+        "filters": {
+            "favourite": "علاقه‌مندی‌ها",
+            "invites": "دعوت‌ها",
+            "low_priority": "کم‌اهمیت",
+            "mentions": "اشاره‌ها",
+            "people": "افراد",
+            "rooms": "اتاق‌ها",
+            "unread": "خوانده‌نشده"
+        },
+        "list_title": "فهرست اتاق‌ها",
+        "more_options": {
+            "copy_link": "رونوشت پیوند",
+            "favourited": "در علاقه‌مندی‌ها",
+            "leave_room": "خروج از اتاق",
+            "low_priority": "کم‌اهمیت",
+            "mark_read": "علامت‌گذاری به عنوان خوانده‌شده",
+            "mark_unread": "علامت‌گذاری به عنوان خوانده‌نشده",
+            "move_to_section": "انتقال به",
+            "remove_from_section": "حذف از بخش"
+        },
+        "notification_options": "گزینه‌های آگاهی",
+        "open_space_menu": "باز کردن منوی فضا",
+        "primary_filters": "فیلترهای فهرست اتاق‌ها",
+        "room": {
+            "more_options": "گزینه‌های بیشتر"
+        },
+        "room_options": "گزینه‌های اتاق",
+        "section_created": "بخش ایجاد شد",
+        "section_creation": {
+            "description": "بخش‌ها فقط برای شما هستند",
+            "label": "نام بخش"
+        },
+        "section_header": {
+            "edit_section": "ویرایش بخش",
+            "more_options": "گزینه‌های بیشتر",
+            "remove_section": "حذف بخش",
+            "toggle": "باز یا بسته کردن بخش %(section)s",
+            "toggle_unread": "باز یا بسته کردن بخش %(section)s با اتاق‌های خوانده‌نشده"
+        },
+        "show_message_previews": "نمایش پیش‌نمایش پیام‌ها",
+        "sort": "مرتب‌سازی",
+        "sort_type": {
+            "activity": "آخرین فعالیت",
+            "atoz": "الفبایی",
+            "unread_first": "ابتدا خوانده‌نشده‌ها"
+        },
+        "space_menu": {
+            "home": "خانه فضا",
+            "space_settings": "تنظیمات فضا"
+        },
+        "unread_messages": "پیام‌های خوانده‌نشده"
+    },
+    "status": {
+        "set_status": {
+            "away": "دور از دسترس",
+            "be_right_back": "زود برمی‌گردم",
+            "choose_emoji": "انتخاب شکلک",
+            "custom": "سفارشی…",
+            "focus_time": "زمان تمرکز",
+            "in_a_meeting": "در جلسه",
+            "on_the_road": "در راه",
+            "set_status_prompt": "وضعیت شما چیست؟"
+        }
+    },
+    "terms": {
+        "tac_button": "بررسی شرایط و ضوابط"
+    },
+    "threads": {
+        "error_start_thread_existing_relation": "نمی‌توانید از این پیام رشته گفتگو آغاز کنید."
     },
     "time": {
         "about_day_ago": "حدود یک روز قبل",
@@ -25,5 +287,133 @@
         "n_days_ago": "%(num)s روز قبل",
         "n_hours_ago": "%(num)s ساعت قبل",
         "n_minutes_ago": "%(num)s دقیقه قبل"
+    },
+    "timeline": {
+        "call_tile": {
+            "declined": {
+                "call_declined": "تماس رد شد",
+                "call_declined_by_us": "تماسی را رد کردید"
+            },
+            "ongoing": {
+                "common": {
+                    "call_started_by": "%(startedByDisplayName)s تماسی را آغاز کرد",
+                    "join_button": "پیوستن"
+                },
+                "dm": {
+                    "call_started": "تماس آغاز شد",
+                    "title": "تماس در جریان است"
+                },
+                "room": {
+                    "join_count": {
+                        "one": "%(count)s نفر پیوست",
+                        "other": "%(count)s نفر پیوستند"
+                    },
+                    "title": "تماس گروهی در جریان است"
+                }
+            },
+            "tombstone": {
+                "room": {
+                    "title": "تماس گروهی پایان یافت"
+                }
+            },
+            "video_call_title": "تماس تصویری",
+            "voice_call_title": "تماس صوتی"
+        },
+        "decryption_failure": {
+            "blocked": "فرستنده دریافت این پیام را برای شما مسدود کرده است، زیرا دستگاه شما تأیید نشده است",
+            "historical_event_no_key_backup": "پیام‌های قدیمی در این دستگاه در دسترس نیستند",
+            "historical_event_unverified_device": "برای دسترسی به پیام‌های قدیمی باید این دستگاه را تأیید کنید",
+            "historical_event_user_not_joined": "به این پیام دسترسی ندارید",
+            "sender_identity_previously_verified": "هویت دیجیتال تأییدشده فرستنده بازنشانی شد",
+            "sender_unsigned_device": "از یک دستگاه ناامن ارسال شده است.",
+            "unable_to_decrypt": "رمزگشایی پیام ممکن نشد"
+        },
+        "download_action_decrypting": "در حال رمزگشایی",
+        "download_action_downloading": "در حال دانلود",
+        "e2e_state": "وضعیت رمزنگاری سرتاسری",
+        "m.audio": {
+            "audio_player": "پخش‌کننده صدا",
+            "error_downloading_audio": "خطا در دانلود صدا",
+            "unnamed_audio": "صدای بی‌نام"
+        },
+        "m.file": {
+            "error_invalid": "پرونده نامعتبر"
+        },
+        "m.room.avatar": {
+            "changed_img": "%(senderDisplayName)s تصویر اتاق را به <img/> تغییر داد",
+            "removed": "%(senderDisplayName)s تصویر اتاق را حذف کرد."
+        },
+        "m.room.encryption": {
+            "disable_attempt": "تلاش برای غیرفعال کردن رمزنگاری نادیده گرفته شد",
+            "disabled": "رمزنگاری فعال نیست",
+            "enabled": "پیام‌های این اتاق رمزنگاری سرتاسری دارند. پس از پیوستن افراد می‌توانید آن‌ها را در نمایه‌شان تأیید کنید؛ کافی است تصویر نمایه‌شان را انتخاب کنید.",
+            "enabled_dm": "پیام‌های اینجا رمزنگاری سرتاسری دارند. %(displayName)s را در نمایه‌اش تأیید کنید؛ تصویر نمایه‌اش را انتخاب کنید.",
+            "enabled_local": "پیام‌های این گفتگو رمزنگاری سرتاسری خواهند داشت.",
+            "parameters_changed": "برخی از پارامترهای رمزنگاری تغییر کرده‌اند.",
+            "state_enabled": "پیام‌ها و رویدادهای وضعیت این اتاق رمزنگاری سرتاسری دارند. پس از پیوستن افراد می‌توانید آن‌ها را در نمایه‌شان تأیید کنید؛ کافی است تصویر نمایه‌شان را انتخاب کنید.",
+            "unsupported": "رمزنگاری استفاده‌شده در این اتاق پشتیبانی نمی‌شود."
+        },
+        "mab": {
+            "collapse_reply_chain": "جمع کردن نقل‌قول‌ها",
+            "copy_link_thread": "رونوشت پیوند رشته گفتگو",
+            "expand_reply_chain": "باز کردن نقل‌قول‌ها",
+            "label": "کارهای پیام",
+            "view_in_room": "مشاهده در اتاق"
+        },
+        "message_shared_by": "%(displayName)s (%(userId)s) این پیام را به اشتراک گذاشت، زیرا هنگام ارسال آن در اتاق نبودید.",
+        "message_timestamp_received_at": "زمان دریافت: %(dateTime)s",
+        "message_timestamp_sent_at": "زمان ارسال: %(dateTime)s",
+        "mjolnir": {
+            "message_hidden": "این کاربر را نادیده گرفته‌اید، پس پیام او پنهان است. <a>با این حال نمایش بده.</a>"
+        },
+        "pending_moderation": "پیام در انتظار نظارت",
+        "pending_moderation_reason": "پیام در انتظار نظارت: %(reason)s",
+        "url_preview": {
+            "show_n_more": {
+                "one": "نمایش %(count)s پیش‌نمایش دیگر",
+                "other": "نمایش %(count)s پیش‌نمایش دیگر"
+            },
+            "view_audio": "مشاهده صدا",
+            "view_file": "مشاهده پرونده",
+            "view_image": "مشاهده تصویر",
+            "view_video": "مشاهده ویدیو"
+        }
+    },
+    "user_menu": {
+        "link_new_device": "پیوند دستگاه جدید",
+        "open_feedback": "بازخورد",
+        "open_home": "خانه",
+        "open_security": "امنیت و حریم خصوصی",
+        "open_settings": "همه تنظیمات"
+    },
+    "voip": {
+        "element_call_mock": {
+            "config_label": "پیکربندی مؤثر",
+            "configuration": "پیکربندی",
+            "host_bridge_facts": "supportsReactions: %(supportsReactions)s · allowJoinUnmutedViaIntent: %(allowJoinUnmutedViaIntent)s · close: %(close)s",
+            "in_call": "در تماس",
+            "in_lobby": "در اتاق انتظار",
+            "initialized_with": "initializeElementCall: %(value)s",
+            "log_label": "گزارش HostBridge",
+            "mute_audio": "بی‌صدا کردن صدا",
+            "mute_video": "خاموش کردن تصویر",
+            "no_participants": "کسی در این تماس نیست",
+            "participants": "شرکت‌کنندگان",
+            "status": "%(roomId)s · هدف %(intent)s · %(state)s · پوسته %(theme)s · زبان %(language)s",
+            "title": "Element Call (آزمایشی)",
+            "unknown_room": "اتاق ناشناخته %(roomId)s",
+            "unmute_audio": "روشن کردن صدا",
+            "unmute_video": "روشن کردن تصویر"
+        }
+    },
+    "widget": {
+        "context_menu": {
+            "move_left": "انتقال به چپ",
+            "move_right": "انتقال به راست",
+            "remove": "حذف برای همه",
+            "revoke": "لغو مجوزها",
+            "screenshot": "گرفتن تصویر",
+            "start_audio_stream": "آغاز جریان صدا"
+        }
     }
 }
