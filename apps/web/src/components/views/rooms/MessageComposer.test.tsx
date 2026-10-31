@@ -48,17 +48,6 @@ const openStickerPicker = async (): Promise<void> => {
     await userEvent.click(screen.getByLabelText("Sticker"));
 };
 
-const startVoiceMessage = async (): Promise<void> => {
-    await userEvent.click(screen.getByLabelText("More options"));
-    await userEvent.click(screen.getByLabelText("Voice Message"));
-};
-
-const expectVoiceMessageRecordingTriggered = (): void => {
-    // Checking for the voice message dialog text, if no mic can be found.
-    // By this we know at least that starting a voice message was triggered.
-    expect(screen.getByText("No microphone found")).toBeInTheDocument();
-};
-
 beforeAll(initOnce, 10000);
 
 describe("MessageComposer", () => {
@@ -414,16 +403,10 @@ describe("MessageComposer", () => {
             });
         });
 
-        describe("when clicking start a voice message", () => {
-            beforeEach(async () => {
-                wrapAndRender({ room });
-                await startVoiceMessage();
-                await flushPromises();
-            });
-
-            it("should try to start a voice message", () => {
-                expectVoiceMessageRecordingTriggered();
-            });
+        it("should offer no voice message", async () => {
+            wrapAndRender({ room });
+            await userEvent.click(screen.getByLabelText("More options"));
+            expect(screen.queryByLabelText("Voice Message")).not.toBeInTheDocument();
         });
     });
 

@@ -31,6 +31,18 @@ const FileDropTarget: React.FC<IProps> = ({ parent }) => {
     const vm = useRoomUploadViewModel();
     const { mayDragAndDropFile } = useViewModel(vm);
 
+    // Zemzemeh: with nothing to receive it, a file dropped here would otherwise replace the page.
+    useEffect(() => {
+        if (mayDragAndDropFile || !parent) return;
+        const refuse = (ev: DragEvent): void => ev.preventDefault();
+        parent.addEventListener("dragover", refuse);
+        parent.addEventListener("drop", refuse);
+        return () => {
+            parent.removeEventListener("dragover", refuse);
+            parent.removeEventListener("drop", refuse);
+        };
+    }, [parent, mayDragAndDropFile]);
+
     useEffect(() => {
         if (!mayDragAndDropFile || !parent || parent.ondrop) return;
 

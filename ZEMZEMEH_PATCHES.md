@@ -7,7 +7,6 @@ rebase. Base: upstream `v1.12.33`, branch `zemzemeh/main`.
 
 - `modules/zemzemeh-attach`: new workspace module, loaded through `modules` in `config.json`. Adds the upload
   option and frames Zemzemeh's picker; see its README. It adds a project, so `pnpm-lock.yaml` gains entries.
-  It does not remove Element's own upload option yet.
 - `packages/module-api/src/api/composer.ts`, `apps/web/src/modules/ComposerApi.ts`, `fileReferenceContent.ts`:
   `sendFileReference`, the one send function the module has. It builds the content field by field, so nothing else
   a module passes can reach an event, and clears the composer's reply state after a reply. The API report
@@ -15,6 +14,23 @@ rebase. Base: upstream `v1.12.33`, branch `zemzemeh/main`.
 - `apps/web/src/viewmodels/room/RoomUploadViewModel.tsx`: upload options also receive the thread root.
 
 `I18nApi.register` stores keys as they are, without splitting on `|`, so module translation keys must be flat.
+
+## Local uploads removed
+
+Attachments come only from the module. None of this is the boundary, which is on the server (Nginx, the avatar
+gateway and the Synapse module); a modified client can skip all of it.
+
+- `utils/zemzemehUploads.ts`, `utils/createMatrixClient.ts`: every client refuses `uploadContent`, so a caller added
+  upstream fails closed. `uploadAvatar` is the one way through, used by the avatar callers (`MiniAvatarUploader`,
+  `RoomProfileSettings`, `UserProfileSettings`, `SpaceSettingsGeneralTab`, `createRoom`, the slash commands). The
+  server re-encodes whatever it receives. `zemzemehUploads.test.ts` fails on a new caller, so look at it on a rebase.
+- `viewmodels/room/RoomUploadViewModel.tsx`: no `local` option and no file input; drop, paste and the module API's
+  file insertion all end in functions that do nothing.
+- `components/structures/FileDropTarget.tsx`: a dropped file no longer replaces the page.
+- `components/views/rooms/MessageComposerButtons.tsx`: no voice message button.
+- `components/structures/RoomView.tsx`, `viewmodels/room/right-panel/WidgetContextMenuViewModel.tsx`: no widget snapshot.
+- `components/views/settings/tabs/room/NotificationSettingsTab.tsx`: no notification sound upload; a sound set before
+  still shows and can be reset.
 
 ## Required recovery key
 

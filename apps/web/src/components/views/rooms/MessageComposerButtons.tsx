@@ -17,7 +17,6 @@ import {
 } from "matrix-js-sdk/src/matrix";
 import React, { type JSX, type ReactElement, type ReactNode, useContext } from "react";
 import {
-    MicOnIcon,
     OverflowHorizontalIcon,
     PollsIcon,
     StickerIcon,
@@ -186,18 +185,9 @@ function showStickersButton(props: IProps): ReactElement | null {
     ) : null;
 }
 
-function voiceRecordingButton(props: IProps, narrow: boolean): ReactElement | null {
-    // XXX: recording UI does not work well in narrow mode, so hide for now
-    return narrow ? null : (
-        <CollapsibleButton
-            key="voice_message_send"
-            className="mx_MessageComposer_button"
-            onClick={props.onRecordStartEndClick}
-            title={_t("composer|voice_message_button")}
-        >
-            <MicOnIcon />
-        </CollapsibleButton>
-    );
+// Zemzemeh: a recording would be an upload to Matrix media, so there is no way to start one.
+function voiceRecordingButton(_props: IProps, _narrow: boolean): ReactElement | null {
+    return null;
 }
 
 function pollButton(room: Room, relation?: IEventRelation): ReactElement {

@@ -6,50 +6,21 @@
  */
 
 import {
-    _t,
     BaseViewModel,
     type UploadButtonViewActions,
     type UploadButtonViewSnapshot,
     useCreateAutoDisposedViewModel,
 } from "@element-hq/web-shared-components";
-import { logger as rootLogger } from "matrix-js-sdk/src/logger";
-import { AttachmentIcon } from "@vector-im/compound-design-tokens/assets/web/icons";
-import React, {
-    type ChangeEventHandler,
-    createContext,
-    type ReactNode,
-    useCallback,
-    useContext,
-    useEffect,
-    useRef,
-} from "react";
-import {
-    type MatrixClient,
-    type Room,
-    type IEventRelation,
-    type MatrixEvent,
-    RoomEvent,
-} from "matrix-js-sdk/src/matrix";
+import React, { createContext, type ReactNode, useContext, useEffect } from "react";
+import { type Room, type IEventRelation, type MatrixEvent, RoomEvent } from "matrix-js-sdk/src/matrix";
 
 import type { ComposerApiFileUploadOption } from "@element-hq/element-web-module-api";
 import { useScopedRoomContext } from "../../contexts/ScopedRoomContext";
-import { useMatrixClientContext } from "../../contexts/MatrixClientContext";
-import ContentMessages from "../../ContentMessages";
 import { TimelineRenderingType } from "../../contexts/RoomContext";
-import { chromeFileInputFix } from "../../utils/BrowserWorkarounds";
-import type { MatrixDispatcher } from "../../dispatcher/dispatcher";
-import defaultDispatcher from "../../dispatcher/dispatcher";
 import { ModuleApi } from "../../modules/Api";
 import { ModuleComposerApiEvents } from "../../modules/ComposerApi";
-import { Action } from "../../dispatcher/actions";
-import type { ComposerInsertFilesPayload } from "../../dispatcher/payloads/ComposerInsertFilePayload";
-import { useDispatcher } from "../../hooks/useDispatcher";
-import type { ActionPayload } from "../../dispatcher/payloads";
 import { type AttachmentOpen } from "@matrix-org/analytics-events/types/typescript/AttachmentOpen";
 import { PosthogAnalytics } from "../../PosthogAnalytics";
-import type { AttachmentCancel } from "@matrix-org/analytics-events/types/typescript/AttachmentCancel";
-
-const logger = rootLogger.getChild("RoomUploadViewModel");
 
 interface RoomUploadViewSnapshot extends UploadButtonViewSnapshot {
     mayDragAndDropFile: boolean;
@@ -62,12 +33,9 @@ export class RoomUploadViewModel
     private readonly uploadSelectFns = new Map<string, ComposerApiFileUploadOption["onSelected"]>();
     public constructor(
         private readonly room: Room,
-        private readonly client: MatrixClient,
         private readonly timelineRenderingType: TimelineRenderingType,
-        private readonly dispatcher: MatrixDispatcher,
         private replyToEvent: MatrixEvent | undefined,
         private threadRelation: IEventRelation | undefined,
-        public readonly openUploadDialog: () => void,
         private readonly moduleComposerApi = ModuleApi.instance.composer,
     ) {
         super(
@@ -83,7 +51,6 @@ export class RoomUploadViewModel
         for (const option of moduleComposerApi.fileUploadOptions) {
             this.uploadSelectFns.set(option.type, option.onSelected);
         }
-        this.uploadSelectFns.set("local", this.openUploadDialog);
         this.disposables.trackListener(room, RoomEvent.CurrentStateUpdated, this.onRoomCurrentStateUpdated);
         this.disposables.trackListener(
             moduleComposerApi,
@@ -100,20 +67,14 @@ export class RoomUploadViewModel
     private updateOptions(): void {
         const maySendMessage = this.room.maySendMessage();
         this.snapshot.set({
-            mayDragAndDropFile: maySendMessage,
+            // Attachments only come from a module's option: nothing here reads a local file.
+            mayDragAndDropFile: false,
             options: maySendMessage
-                ? [
-                      {
-                          type: "local",
-                          label: _t("common|attachment"),
-                          icon: AttachmentIcon,
-                      },
-                      ...this.moduleComposerApi.fileUploadOptions.map((option) => ({
-                          type: option.type,
-                          label: option.label,
-                          icon: option.icon,
-                      })),
-                  ]
+                ? this.moduleComposerApi.fileUploadOptions.map((option) => ({
+                      type: option.type,
+                      label: option.label,
+                      icon: option.icon,
+                  }))
                 : [],
         });
     }
@@ -131,48 +92,10 @@ export class RoomUploadViewModel
         this.threadRelation = threadRelation;
     };
 
-    public initiateViaInputFiles = async (files: FileList | File[] | null): Promise<void> => {
-        if (!this.checkCanUpload()) {
-            return;
-        }
-        const { roomId } = this.room;
-        logger.info("initiateViaInputFiles for", roomId);
-        if (!files?.length) return;
-        try {
-            await ContentMessages.sharedInstance().sendContentListToRoom(
-                Array.from(files),
-                roomId,
-                this.threadRelation,
-                this.replyToEvent,
-                this.client,
-                this.timelineRenderingType,
-            );
-        } catch (ex) {
-            logger.warn("Failed to handle file upload transfer", ex);
-        }
-    };
+    /** Reached by paste and drop in the composers. Local files never become attachments. */
+    public initiateViaInputFiles = async (_files: FileList | File[] | null): Promise<void> => {};
 
-    public initiateViaDataTransfer = async (dataTransfer: DataTransfer): Promise<void> => {
-        if (!this.checkCanUpload()) {
-            return;
-        }
-        const { roomId } = this.room;
-        logger.info("initiateViaDataTransfer for", roomId);
-        if (!dataTransfer.files?.length) return;
-
-        try {
-            await ContentMessages.sharedInstance().sendContentListToRoom(
-                Array.from(dataTransfer.files),
-                roomId,
-                this.threadRelation,
-                this.replyToEvent,
-                this.client,
-                this.timelineRenderingType,
-            );
-        } catch (ex) {
-            logger.warn("Failed to handle drag and drop data transfer", ex);
-        }
-    };
+    public initiateViaDataTransfer = async (_dataTransfer: DataTransfer): Promise<void> => {};
 
     public onUploadOptionSelected = (type: ComposerApiFileUploadOption["type"]): void => {
         const fn = this.uploadSelectFns.get(type);
@@ -202,14 +125,6 @@ export class RoomUploadViewModel
             },
         );
     };
-
-    private checkCanUpload(): boolean {
-        if (this.client.isGuest()) {
-            this.dispatcher.dispatch({ action: "require_registration" });
-            return false;
-        }
-        return true;
-    }
 }
 
 export const RoomUploadContext = createContext<RoomUploadViewModel | null>(null);
@@ -234,29 +149,16 @@ export function RoomUploadContextProvider({
         "timelineRenderingType",
         "replyToEvent",
     );
-    const client = useMatrixClientContext();
-    const uploadInput = useRef<HTMLInputElement>(null);
-
-    const openFilePicker = useCallback((): void => {
-        if (!uploadInput.current) {
-            throw new Error("Input not ready");
-        }
-        uploadInput.current.click();
-    }, [uploadInput]);
-
     const vm = useCreateAutoDisposedViewModel(() => {
         if (!room) {
             throw new Error("RoomUploadContextProvider must have a room");
         }
         return new RoomUploadViewModel(
             room,
-            client,
             // Checked earlier
             timelineRenderingType,
-            defaultDispatcher,
             replyToEvent,
             threadRelation,
-            openFilePicker,
         );
     });
 
@@ -268,74 +170,5 @@ export function RoomUploadContextProvider({
         vm.setThreadRelation(threadRelation);
     }, [vm, threadRelation]);
 
-    const onInputChange: ChangeEventHandler<HTMLInputElement> = useCallback(
-        (ev) => {
-            void (async () => {
-                try {
-                    await vm.initiateViaInputFiles(ev.target.files);
-                } finally {
-                    // This is the onChange handler for a file form control, but we're
-                    // not keeping any state, so reset the value of the form control
-                    // to empty.
-                    // NB. we need to set 'value': the 'files' property is immutable.
-                    ev.target.value = "";
-                }
-            })();
-        },
-        [vm],
-    );
-
-    useEffect(() => {
-        const input = uploadInput.current;
-        if (!input) {
-            return;
-        }
-        const fn = (): void => {
-            PosthogAnalytics.instance.trackEvent<AttachmentCancel>({
-                eventName: "AttachmentCancel",
-                stage: "Picker",
-                isReply: !!replyToEvent,
-                inThread: !!threadRelation,
-                kind: "local",
-            });
-        };
-        input.addEventListener("cancel", fn);
-        return () => input.removeEventListener("cancel", fn);
-    });
-
-    useDispatcher(defaultDispatcher, (payload: ActionPayload) => {
-        if (payload.action !== Action.ComposerFileInsert) {
-            return;
-        }
-        const fileInsert = payload as ComposerInsertFilesPayload;
-        if (fileInsert.timelineRenderingType === timelineRenderingType) {
-            logger.info(
-                `Got ComposerFileInsert with ${fileInsert.files.length} files`,
-                timelineRenderingType,
-                threadRelation,
-            );
-            void vm.initiateViaInputFiles(fileInsert.files);
-        }
-    });
-
-    // Note, while this logic could be largely replaced with https://developer.mozilla.org/en-US/docs/Web/API/Window/showOpenFilePicker
-    // it does not enjoy support across all our target platforms.
-    // Therefore, we use the invisible input element trick.
-
-    return (
-        <RoomUploadContext.Provider value={vm}>
-            <>
-                {children}
-                <input
-                    ref={uploadInput}
-                    type="file"
-                    data-testid="room-upload-context-input"
-                    style={{ display: "none" }}
-                    multiple
-                    onClick={chromeFileInputFix}
-                    onChange={onInputChange}
-                />
-            </>
-        </RoomUploadContext.Provider>
-    );
+    return <RoomUploadContext.Provider value={vm}>{children}</RoomUploadContext.Provider>;
 }

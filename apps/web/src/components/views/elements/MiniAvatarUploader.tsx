@@ -17,6 +17,7 @@ import AccessibleButton from "./AccessibleButton";
 import Spinner from "./Spinner";
 import { getFileChanged } from "../settings/AvatarSetting.tsx";
 import { useScopedRoomContext } from "../../../contexts/ScopedRoomContext.tsx";
+import { uploadAvatar } from "../../../utils/zemzemehUploads";
 
 export const AVATAR_SIZE = "52px";
 
@@ -65,7 +66,7 @@ const MiniAvatarUploader: React.FC<IProps> = ({
                     setBusy(true);
                     const file = getFileChanged(ev);
                     if (file) {
-                        const { content_uri: uri } = await cli.uploadContent(file);
+                        const { content_uri: uri } = await uploadAvatar(cli, file);
                         await setAvatarUrl(uri);
                     }
                     setBusy(false);

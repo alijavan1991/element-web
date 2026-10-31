@@ -8,7 +8,7 @@
 import React, { useContext, useMemo, useEffect, type ReactElement, type ReactNode } from "react";
 import { logger } from "@sentry/browser";
 import { type Room, type MatrixClient } from "matrix-js-sdk/src/matrix";
-import { type IWidget, MatrixCapabilities } from "matrix-widget-api";
+import { type IWidget } from "matrix-widget-api";
 import {
     BaseViewModel,
     type WidgetContextMenuViewSnapshot,
@@ -92,12 +92,10 @@ export class WidgetContextMenuViewModel
     ): WidgetContextMenuViewSnapshot => {
         const showStreamAudioStreamButton = !!getConfigLivestreamUrl() && WidgetType.JITSI.matches(app.type);
         const canModify = userWidget || WidgetUtils.canUserModifyWidgets(cli, room?.roomId);
-        const widgetMessaging = WidgetMessagingStore.instance.getMessagingForUid(WidgetUtils.getWidgetUid(app));
         const showDeleteButton = !!onDeleteClick || canModify;
 
-        const showSnapshotButton =
-            SettingsStore.getValue("enableWidgetScreenshots") &&
-            !!widgetMessaging?.widgetApi?.hasCapability(MatrixCapabilities.Screenshots);
+        // Zemzemeh: a snapshot would be an upload to Matrix media.
+        const showSnapshotButton = false;
 
         let showMoveButtons: [boolean, boolean] = [false, false];
         if (showUnpin) {

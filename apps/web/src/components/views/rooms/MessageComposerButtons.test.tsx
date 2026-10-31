@@ -77,7 +77,7 @@ describe("MessageComposerButtons", () => {
             false,
         );
 
-        expect(getButtonLabels()).toEqual(["Emoji", "Attachment", "More options"]);
+        expect(getButtonLabels()).toEqual(["Emoji", "More options"]);
     });
 
     it("Renders other buttons in menu in wide mode", async () => {
@@ -95,12 +95,7 @@ describe("MessageComposerButtons", () => {
         // The location code is lazy loaded, so the button will take a little while
         // to appear, so we need to wait.
         await waitFor(() => {
-            expect(getButtonLabels()).toEqual([
-                "Emoji",
-                "Attachment",
-                "More options",
-                ["Sticker", "Voice Message", "Poll", "Location"],
-            ]);
+            expect(getButtonLabels()).toEqual(["Emoji", "More options", ["Sticker", "Poll", "Location"]]);
         });
     });
 
@@ -131,7 +126,7 @@ describe("MessageComposerButtons", () => {
             true,
         );
 
-        expect(getButtonLabels()).toEqual(["Emoji", "More options", ["Attachment", "Sticker", "Poll", "Location"]]);
+        expect(getButtonLabels()).toEqual(["Emoji", "More options", ["Sticker", "Poll", "Location"]]);
     });
 
     describe("polls button", () => {
@@ -147,7 +142,7 @@ describe("MessageComposerButtons", () => {
                 true,
             );
 
-            expect(getButtonLabels()).toEqual(["Emoji", "More options", ["Attachment", "Sticker", "Poll", "Location"]]);
+            expect(getButtonLabels()).toEqual(["Emoji", "More options", ["Sticker", "Poll", "Location"]]);
         });
 
         it("should not render when asked not to", () => {
@@ -166,7 +161,6 @@ describe("MessageComposerButtons", () => {
                 "Emoji",
                 "More options",
                 [
-                    "Attachment",
                     "Sticker",
                     // "Poll", // should be hidden
                     "Location",

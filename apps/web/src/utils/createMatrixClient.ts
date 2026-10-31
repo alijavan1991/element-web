@@ -27,6 +27,7 @@ import IdentityAuthClient from "../IdentityAuthClient";
 import { _t } from "../languageHandler";
 import { formatList } from "./FormattingUtils";
 import { persistTokens } from "./tokens/tokens.ts";
+import { guardUploads } from "./zemzemehUploads";
 
 const localStorage = window.localStorage;
 
@@ -187,8 +188,10 @@ export function createMatrixClient(opts: ICreateClientOpts): MatrixClient {
         storeOpts.store = new MemoryStore({ localStorage });
     }
 
-    return createClient({
+    const client = createClient({
         ...storeOpts,
         ...opts,
     });
+    guardUploads(client);
+    return client;
 }

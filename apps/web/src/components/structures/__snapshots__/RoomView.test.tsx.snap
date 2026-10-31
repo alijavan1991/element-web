@@ -270,12 +270,6 @@ exports[`RoomView > for a local room > in state ERROR > should match the snapsho
         </div>
       </div>
     </main>
-    <input
-      data-testid="room-upload-context-input"
-      multiple=""
-      style="display: none;"
-      type="file"
-    />
   </div>
 </div>
 `;
@@ -609,13 +603,19 @@ exports[`RoomView > for a local room > in state NEW > should match the snapshot 
                 </svg>
               </div>
               <button
-                aria-label="Attachment"
+                aria-disabled="false"
+                aria-expanded="false"
+                aria-haspopup="menu"
                 aria-labelledby="react-use-id-2"
                 class="_icon-button"
                 data-kind="primary"
+                data-state="closed"
+                id="radix-react-use-id-3"
                 role="button"
                 style="--cpd-icon-button-size: 26px;"
                 tabindex="0"
+                title="Attachment"
+                type="button"
               >
                 <div
                   class="_indicator-icon"
@@ -657,12 +657,6 @@ exports[`RoomView > for a local room > in state NEW > should match the snapshot 
         </div>
       </div>
     </main>
-    <input
-      data-testid="room-upload-context-input"
-      multiple=""
-      style="display: none;"
-      type="file"
-    />
   </div>
 </div>
 `;
@@ -990,13 +984,19 @@ exports[`RoomView > for a local room > in state NEW > that is encrypted > should
                 </svg>
               </div>
               <button
-                aria-label="Attachment"
+                aria-disabled="false"
+                aria-expanded="false"
+                aria-haspopup="menu"
                 aria-labelledby="react-use-id-2"
                 class="_icon-button"
                 data-kind="primary"
+                data-state="closed"
+                id="radix-react-use-id-3"
                 role="button"
                 style="--cpd-icon-button-size: 26px;"
                 tabindex="0"
+                title="Attachment"
+                type="button"
               >
                 <div
                   class="_indicator-icon"
@@ -1038,12 +1038,6 @@ exports[`RoomView > for a local room > in state NEW > that is encrypted > should
         </div>
       </div>
     </main>
-    <input
-      data-testid="room-upload-context-input"
-      multiple=""
-      style="display: none;"
-      type="file"
-    />
   </div>
 </div>
 `;
@@ -1345,12 +1339,6 @@ exports[`RoomView > should hide the composer when hideComposer=true 1`] = `
             />
           </div>
         </div>
-        <input
-          data-testid="room-upload-context-input"
-          multiple=""
-          style="display: none;"
-          type="file"
-        />
       </div>
     </div>
   </div>
@@ -1617,13 +1605,19 @@ exports[`RoomView > should hide the header when hideHeader=true 1`] = `
                   </svg>
                 </div>
                 <button
-                  aria-label="Attachment"
+                  aria-disabled="false"
+                  aria-expanded="false"
+                  aria-haspopup="menu"
                   aria-labelledby="react-use-id-2"
                   class="_icon-button"
                   data-kind="primary"
+                  data-state="closed"
+                  id="radix-react-use-id-3"
                   role="button"
                   style="--cpd-icon-button-size: 26px;"
                   tabindex="0"
+                  title="Attachment"
+                  type="button"
                 >
                   <div
                     class="_indicator-icon"
@@ -1664,12 +1658,6 @@ exports[`RoomView > should hide the header when hideHeader=true 1`] = `
             </div>
           </div>
         </div>
-        <input
-          data-testid="room-upload-context-input"
-          multiple=""
-          style="display: none;"
-          type="file"
-        />
       </div>
     </div>
   </div>
@@ -2102,13 +2090,19 @@ exports[`RoomView > should hide the pinned message banner when hidePinnedMessage
                   </svg>
                 </div>
                 <button
-                  aria-label="Attachment"
+                  aria-disabled="false"
+                  aria-expanded="false"
+                  aria-haspopup="menu"
                   aria-labelledby="react-use-id-7"
                   class="_icon-button"
                   data-kind="primary"
+                  data-state="closed"
+                  id="radix-react-use-id-8"
                   role="button"
                   style="--cpd-icon-button-size: 26px;"
                   tabindex="0"
+                  title="Attachment"
+                  type="button"
                 >
                   <div
                     class="_indicator-icon"
@@ -2149,12 +2143,6 @@ exports[`RoomView > should hide the pinned message banner when hidePinnedMessage
             </div>
           </div>
         </div>
-        <input
-          data-testid="room-upload-context-input"
-          multiple=""
-          style="display: none;"
-          type="file"
-        />
       </div>
     </div>
   </div>
@@ -2587,13 +2575,19 @@ exports[`RoomView > should hide the right panel when hideRightPanel=true 1`] = `
                   </svg>
                 </div>
                 <button
-                  aria-label="Attachment"
+                  aria-disabled="false"
+                  aria-expanded="false"
+                  aria-haspopup="menu"
                   aria-labelledby="react-use-id-7"
                   class="_icon-button"
                   data-kind="primary"
+                  data-state="closed"
+                  id="radix-react-use-id-8"
                   role="button"
                   style="--cpd-icon-button-size: 26px;"
                   tabindex="0"
+                  title="Attachment"
+                  type="button"
                 >
                   <div
                     class="_indicator-icon"
@@ -2634,12 +2628,6 @@ exports[`RoomView > should hide the right panel when hideRightPanel=true 1`] = `
             </div>
           </div>
         </div>
-        <input
-          data-testid="room-upload-context-input"
-          multiple=""
-          style="display: none;"
-          type="file"
-        />
       </div>
     </div>
   </div>
@@ -2855,12 +2843,6 @@ exports[`RoomView > should not display the timeline when the room encryption is 
             />
           </div>
         </div>
-        <input
-          data-testid="room-upload-context-input"
-          multiple=""
-          style="display: none;"
-          type="file"
-        />
       </div>
     </div>
   </div>
@@ -3321,13 +3303,19 @@ exports[`RoomView > should not display the timeline when the room encryption is 
                   </svg>
                 </div>
                 <button
-                  aria-label="Attachment"
+                  aria-disabled="false"
+                  aria-expanded="false"
+                  aria-haspopup="menu"
                   aria-labelledby="react-use-id-8"
                   class="_icon-button"
                   data-kind="primary"
+                  data-state="closed"
+                  id="radix-react-use-id-9"
                   role="button"
                   style="--cpd-icon-button-size: 26px;"
                   tabindex="0"
+                  title="Attachment"
+                  type="button"
                 >
                   <div
                     class="_indicator-icon"
@@ -3368,12 +3356,6 @@ exports[`RoomView > should not display the timeline when the room encryption is 
             </div>
           </div>
         </div>
-        <input
-          data-testid="room-upload-context-input"
-          multiple=""
-          style="display: none;"
-          type="file"
-        />
       </div>
     </div>
   </div>
@@ -3888,13 +3870,19 @@ exports[`RoomView > video rooms > should render joined video room view 1`] = `
                       </svg>
                     </div>
                     <button
-                      aria-label="Attachment"
+                      aria-disabled="false"
+                      aria-expanded="false"
+                      aria-haspopup="menu"
                       aria-labelledby="react-use-id-7"
                       class="_icon-button"
                       data-kind="primary"
+                      data-state="closed"
+                      id="radix-react-use-id-8"
                       role="button"
                       style="--cpd-icon-button-size: 26px;"
                       tabindex="0"
+                      title="Attachment"
+                      type="button"
                     >
                       <div
                         class="_indicator-icon"
@@ -3935,12 +3923,6 @@ exports[`RoomView > video rooms > should render joined video room view 1`] = `
                 </div>
               </div>
             </div>
-            <input
-              data-testid="room-upload-context-input"
-              multiple=""
-              style="display: none;"
-              type="file"
-            />
           </div>
         </aside>
         <div>

@@ -6,8 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-only OR GPL-3.0-only OR LicenseRef-Element-Com
 Please see LICENSE files in the repository root for full details.
 */
 
-import React, { type JSX, createRef } from "react";
-import { logger } from "matrix-js-sdk/src/logger";
+import React from "react";
 
 import { _t } from "../../../../../languageHandler";
 import AccessibleButton, { type ButtonEvent } from "../../../elements/AccessibleButton";
@@ -21,7 +20,6 @@ import { RoomNotifState } from "../../../../../RoomNotifs";
 import defaultDispatcher from "../../../../../dispatcher/dispatcher";
 import { Action } from "../../../../../dispatcher/actions";
 import { UserTab } from "../../../dialogs/UserTab";
-import { chromeFileInputFix } from "../../../../../utils/BrowserWorkarounds";
 import SettingsTab from "../SettingsTab";
 import { SettingsSection } from "../../shared/SettingsSection";
 import { SettingsSubsection } from "../../shared/SettingsSubsection";
@@ -34,12 +32,10 @@ interface IProps {
 
 interface IState {
     currentSound: string;
-    uploadedFile: File | null;
 }
 
 export default class NotificationsSettingsTab extends React.Component<IProps, IState> {
     private readonly roomProps: RoomEchoChamber;
-    private soundUpload = createRef<HTMLInputElement>();
 
     public static contextType = MatrixClientContext;
     declare public context: React.ContextType<typeof MatrixClientContext>;
@@ -57,71 +53,7 @@ export default class NotificationsSettingsTab extends React.Component<IProps, IS
 
         this.state = {
             currentSound,
-            uploadedFile: null,
         };
-    }
-
-    private triggerUploader = async (e: ButtonEvent): Promise<void> => {
-        e.stopPropagation();
-        e.preventDefault();
-
-        this.soundUpload.current?.click();
-    };
-
-    private onSoundUploadChanged = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        if (!e.target.files || !e.target.files.length) {
-            this.setState({
-                uploadedFile: null,
-            });
-            return;
-        }
-
-        const file = e.target.files[0];
-        this.setState({
-            uploadedFile: file,
-        });
-    };
-
-    private onClickSaveSound = async (e: ButtonEvent): Promise<void> => {
-        e.stopPropagation();
-        e.preventDefault();
-
-        try {
-            await this.saveSound();
-        } catch (ex) {
-            logger.error(`Unable to save notification sound for ${this.props.roomId}`);
-            logger.error(ex);
-        }
-    };
-
-    private async saveSound(): Promise<void> {
-        if (!this.state.uploadedFile) {
-            return;
-        }
-
-        let type = this.state.uploadedFile.type;
-        if (type === "video/ogg") {
-            // XXX: I've observed browsers allowing users to pick a audio/ogg files,
-            // and then calling it a video/ogg. This is a lame hack, but man browsers
-            // suck at detecting mimetypes.
-            type = "audio/ogg";
-        }
-
-        const { content_uri: url } = await this.context.uploadContent(this.state.uploadedFile, {
-            type,
-        });
-
-        await SettingsStore.setValue("notificationSound", this.props.roomId, SettingLevel.ROOM_ACCOUNT, {
-            name: this.state.uploadedFile.name,
-            type: type,
-            size: this.state.uploadedFile.size,
-            url,
-        });
-
-        this.setState({
-            uploadedFile: null,
-            currentSound: this.state.uploadedFile.name,
-        });
     }
 
     private clearSound = (e: ButtonEvent): void => {
@@ -150,17 +82,6 @@ export default class NotificationsSettingsTab extends React.Component<IProps, IS
     };
 
     public render(): React.ReactNode {
-        let currentUploadedFile: JSX.Element | undefined;
-        if (this.state.uploadedFile) {
-            currentUploadedFile = (
-                <div>
-                    <span>
-                        {_t("room_settings|notifications|uploaded_sound")}: <code>{this.state.uploadedFile.name}</code>
-                    </span>
-                </div>
-            );
-        }
-
         return (
             <SettingsTab>
                 <SettingsSection heading={_t("notifications|enable_prompt_toast_title")}>
@@ -260,42 +181,6 @@ export default class NotificationsSettingsTab extends React.Component<IProps, IS
                             >
                                 {_t("action|reset")}
                             </AccessibleButton>
-                        </div>
-                        <div>
-                            <h4 className="mx_Heading_h4">{_t("room_settings|notifications|custom_sound_prompt")}</h4>
-                            <div className="mx_SettingsFlag">
-                                <form autoComplete="off" noValidate={true}>
-                                    <input
-                                        ref={this.soundUpload}
-                                        className="mx_NotificationSound_soundUpload"
-                                        type="file"
-                                        onClick={chromeFileInputFix}
-                                        onChange={this.onSoundUploadChanged}
-                                        accept="audio/*"
-                                        aria-label={_t("room_settings|notifications|upload_sound_label")}
-                                    />
-                                </form>
-
-                                {currentUploadedFile}
-                            </div>
-
-                            <AccessibleButton
-                                className="mx_NotificationSound_browse"
-                                onClick={this.triggerUploader}
-                                kind="primary"
-                            >
-                                {_t("room_settings|notifications|browse_button")}
-                            </AccessibleButton>
-
-                            <AccessibleButton
-                                className="mx_NotificationSound_save"
-                                disabled={this.state.uploadedFile == null}
-                                onClick={this.onClickSaveSound}
-                                kind="primary"
-                            >
-                                {_t("action|save")}
-                            </AccessibleButton>
-                            <br />
                         </div>
                     </SettingsSubsection>
                 </SettingsSection>

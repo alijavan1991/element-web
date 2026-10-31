@@ -1210,20 +1210,6 @@ export class RoomView extends React.Component<IRoomProps, IRoomState> {
                     payload.data.threadId,
                 );
                 break;
-            case "picture_snapshot": {
-                const roomId = this.getRoomId();
-                if (isNotUndefined(roomId)) {
-                    void ContentMessages.sharedInstance().sendContentListToRoom(
-                        [payload.file],
-                        roomId,
-                        undefined,
-                        this.state.replyToEvent,
-                        this.context.client,
-                    );
-                }
-
-                break;
-            }
             case "notifier_enabled":
             case Action.UploadStarted:
             case Action.UploadFinished:

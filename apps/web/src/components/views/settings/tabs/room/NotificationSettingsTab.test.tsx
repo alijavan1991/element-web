@@ -58,6 +58,13 @@ describe("NotificationSettingsTab", () => {
         expect(roomProps.notificationVolume).not.toBe("mentions_only");
     });
 
+    it("offers no upload of a notification sound", () => {
+        const tab = renderTab();
+
+        expect(tab.container.querySelector("input[type=file]")).toBeNull();
+        expect(tab.queryByRole("button", { name: "Browse" })).toBeNull();
+    });
+
     it("should show the currently chosen custom notification sound", async () => {
         void SettingsStore.setValue("notificationSound", roomId, SettingLevel.ACCOUNT, {
             url: "mxc://server/custom-sound-123",

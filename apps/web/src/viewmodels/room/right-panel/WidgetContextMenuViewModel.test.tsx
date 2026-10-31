@@ -92,6 +92,14 @@ describe("WidgetContextMenuViewModel", () => {
         });
     });
 
+    it("offers no snapshot even where a widget could take one", () => {
+        vi.spyOn(SettingsStore, "getValue").mockReturnValue(true);
+        vi.mocked(
+            WidgetMessagingStore.instance.getMessagingForUid(defaultProps.app.id)!.widgetApi!.hasCapability,
+        ).mockReturnValue(true);
+        expect(new WidgetContextMenuViewModel(defaultProps).getSnapshot().showSnapshotButton).toBe(false);
+    });
+
     it("should call edit widget no custom edit function passed and room exist", () => {
         const props = {
             ...defaultProps,

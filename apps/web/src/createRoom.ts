@@ -49,6 +49,7 @@ import { ElementCallMemberEventType } from "./call-types";
 import { htmlSerializeFromMdIfNeeded } from "./editor/serialize";
 import { SDKContextClass } from "./contexts/SDKContextClass.ts";
 import SdkConfig from "./SdkConfig";
+import { uploadAvatar } from "./utils/zemzemehUploads";
 
 // we define a number of interfaces which take their names from the js-sdk
 export interface IOpts {
@@ -293,7 +294,7 @@ export default async function createRoom(client: MatrixClient, opts: IOpts): Pro
         if (opts.avatar) {
             let url = opts.avatar;
             if (opts.avatar instanceof File) {
-                ({ content_uri: url } = await client.uploadContent(opts.avatar));
+                ({ content_uri: url } = await uploadAvatar(client, opts.avatar));
             }
 
             createOpts.initial_state.push({
@@ -469,7 +470,7 @@ async function enableStateEventEncryption(client: MatrixClient, room: Room, opts
     if (opts.avatar) {
         let url: string;
         if (opts.avatar instanceof File) {
-            ({ content_uri: url } = await client.uploadContent(opts.avatar));
+            ({ content_uri: url } = await uploadAvatar(client, opts.avatar));
         } else {
             url = opts.avatar;
         }

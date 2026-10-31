@@ -62,6 +62,19 @@ describe("FileDropTarget", () => {
         expect(asFragment()).toMatchSnapshot();
     });
 
+    it("keeps a dropped file from leaving the page or reaching an upload", () => {
+        const element = document.createElement("div");
+        const onFileDrop = vi.fn();
+        render(<FileDropTargetWrapped element={element} onFileDrop={onFileDrop} />);
+        const over = new Event("dragover", { bubbles: true, cancelable: true });
+        const drop = new Event("drop", { bubbles: true, cancelable: true });
+        element.dispatchEvent(over);
+        element.dispatchEvent(drop);
+        expect(over.defaultPrevented).toBe(true);
+        expect(drop.defaultPrevented).toBe(true);
+        expect(onFileDrop).not.toHaveBeenCalled();
+    });
+
     it("should not render drop file prompt on mouse over with file if permissions do not allow", () => {
         const element = document.createElement("div");
         const onFileDrop = vi.fn();

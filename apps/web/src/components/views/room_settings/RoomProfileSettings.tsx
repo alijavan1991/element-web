@@ -17,6 +17,7 @@ import AvatarSetting from "../settings/AvatarSetting";
 import { htmlSerializeFromMdIfNeeded } from "../../../editor/serialize";
 import DMRoomMap from "../../../utils/DMRoomMap";
 import { LocalRoom } from "../../../models/LocalRoom";
+import { uploadAvatar } from "../../../utils/zemzemehUploads";
 
 interface IProps {
     roomId: string;
@@ -147,7 +148,7 @@ export default class RoomProfileSettings extends React.Component<IProps, IState>
         }
 
         if (this.state.avatarFile) {
-            const { content_uri: uri } = await client.uploadContent(this.state.avatarFile);
+            const { content_uri: uri } = await uploadAvatar(client, this.state.avatarFile);
             await client.sendStateEvent(this.props.roomId, EventType.RoomAvatar, { url: uri }, "");
             newState.originalAvatarUrl = uri;
             newState.avatarFile = null;
